@@ -162,6 +162,11 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
         autonomousChooser.addOption(
             "Trench Citrus Compatible Second", 
             createTrenchCitrusCompatibleBCommand());
+        
+        /* Example Path Added to AutonomousChooser */
+        autonomousChooser.addOption(
+            "Example Autonomous", 
+            createExampleAutonomousCommand());
 
         SmartDashboard.putData("Selected Auto", autonomousChooser);
     }
@@ -348,6 +353,18 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
                     .withEndRotation(new Rotation2d(Math.PI))
                     .withTrajectory(tryGetDeployedTrajectory("CrossTheLine"))
                     .buildController()));
+    }
+
+    /* Example Autonomous Command */
+    private CommandBase createExampleAutonomousCommand(){
+        return new OdometricSwerve_AdvancedFollowTrajectoryCommand(
+            swerve, 
+            createDefaultControllerBuilder()
+            .withEndRotation(new Rotation2d(Math.PI))
+            .withTrajectory(tryGetDeployedTrajectory("ExampleTrajectory"))
+            .withMaxVelocity(1.0)
+            .buildController());
+
     }
     @Override
     public void teleopInit() {
