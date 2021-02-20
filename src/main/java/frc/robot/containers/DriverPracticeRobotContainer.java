@@ -105,7 +105,8 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
 
         configureBasicOverrides();
 
-        alternateConfigureMainintakeButton();
+        // alternateConfigureMainintakeButton();
+        configureMainIntakeButton();
 
         configureShooter();
 
@@ -355,8 +356,8 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
     private void configureShooter() {
         visionDistanceCalculator = GenericAutonUtilities.makeEntropyVisionDistanceCalculator(limelight);
         visionPreciseShootingOI = new VisionPreciseShootingOI(visionDistanceCalculator);
-        var shootCommand = new Autonomous_PreciseShootingCommand(shooter, indexer, -500,-500,1,500);
-
+        //var shootCommand = new Autonomous_PreciseShootingCommand(shooter, indexer, -500,-500,1,500);
+        var shootCommand = new Autonomous_PreciseShootingCommand(shooter, indexer, visionPreciseShootingOI);
         shootButton.whileHeld(shootCommand);
     }
 
@@ -401,7 +402,7 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
     private void configureTurret() {
         turret.setDefaultCommand(
             new PIDCommand(
-                new PIDController(-0, 0, 0), 
+                new PIDController(-3, 0, 0), 
                 limelight::getHorizontalOffset,
                 this::getTurretRadianOffset, 
                 turret::setTurretOutput, 
