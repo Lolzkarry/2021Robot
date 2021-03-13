@@ -27,7 +27,7 @@ public class AdvancedSwerveController {
         private double kP;
         private double kW;
         private Trajectory.State[] states;
-        private Trajectory.State currentState;
+        Trajectory.State currentState;
         private int currentStateIndex = 0 ;
         private Translation2d axis;
         private double projectedDesiredTranslationOffset = 0;
@@ -74,6 +74,7 @@ public class AdvancedSwerveController {
             var translationalOutput = ExtendedMath.clamp(0, maxVelocity, calculateTranslationOutput(pose.getTranslation()));
             var rotationOutput = calculateRotationOutput(pose.getRotation());
             var direction = getUnitDirectionVector(pose.getTranslation());
+            //direction = new Translation2d(direction.getX(), -direction.getY() - 14);
             return new ChassisSpeeds(translationalOutput * direction.getX(), translationalOutput * direction.getY(), rotationOutput);
         }
         public void reset(Translation2d currentTranslation){

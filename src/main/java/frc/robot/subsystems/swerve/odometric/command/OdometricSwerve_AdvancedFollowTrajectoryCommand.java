@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.swerve.odometric.command;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 
@@ -32,6 +33,8 @@ public class OdometricSwerve_AdvancedFollowTrajectoryCommand extends CommandBase
   @Override
   public void execute() {
     var output = controller.calculateFieldCentricChassisSpeeds(swerve.getCurrentPose());
+    SmartDashboard.putNumber("Output X", output.vxMetersPerSecond);
+    SmartDashboard.putNumber("Output Y", output.vyMetersPerSecond);
     swerve.moveFieldCentric(output.vxMetersPerSecond,output.vyMetersPerSecond,output.omegaRadiansPerSecond);
   }
 

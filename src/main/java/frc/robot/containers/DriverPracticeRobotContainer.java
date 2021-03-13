@@ -207,7 +207,7 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
         // .andThen(this::aimAtInnerPort, limelight, turret, swerve)
 
         .andThen(() -> swerve.moveFieldCentric(0, 0, 0), swerve)
-        .andThen(new Autonomous_PreciseShootingCommand(shooter, indexer, visionPreciseShootingOI).withTimeout(3));
+        .andThen(new Autonomous_PreciseShootingCommand(shooter, indexer, visionPreciseShootingOI).withTimeout(6));
     }
 
     private CommandGroupBase createTrenchCitrusPart1Command() {
@@ -223,9 +223,11 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
                     .with_kW(6)
                     .withRotationsEnabled(true)
                     .withTrajectory(tryGetDeployedTrajectory("TrenchCitrusCompatiblePart1"))
-                    .withMaxVelocity(2.0)
+                    .withMaxVelocity(2)
                     .buildController()))
-                .deadlineWith(new Autonomous_ForceIndexBallsCommand(indexer, intake, arm, 1, 0.9, Math.PI/2)));
+                .deadlineWith(
+                    new Autonomous_ForceIndexBallsCommand(indexer, intake, arm, 1, 0.9, Math.PI/2.1)
+                    ));
     }
 
     private SequentialCommandGroup createCitrusCompatibleSecondary(){
@@ -357,13 +359,14 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
 
     /* Example Autonomous Command */
     private CommandBase createExampleAutonomousCommand(){
-        return new OdometricSwerve_AdvancedFollowTrajectoryCommand(
+        return new InstantCommand(() -> swerve.resetPose(new Translation2d(0.762, 12.714)),swerve)
+        .andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(
             swerve, 
             createDefaultControllerBuilder()
             .withEndRotation(new Rotation2d(Math.PI))
             .withTrajectory(tryGetDeployedTrajectory("ExampleTrajectory"))
             .withMaxVelocity(1.0)
-            .buildController());
+            .buildController()));
 
     }
     @Override

@@ -31,7 +31,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    if(isSimulation()){
+      m_robotContainer = new SimulatedRobotContainer();
+    }else{
     m_robotContainer = new DriverPracticeRobotContainer();
+    }
   }
 
   /**
