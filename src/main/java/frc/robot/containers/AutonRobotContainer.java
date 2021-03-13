@@ -115,6 +115,8 @@ public class AutonRobotContainer implements IRobotContainer{
         );
         addAutonCommand("AwayFromCenterBackward", createDefaultControllerBuilder().withEndRotation(new Rotation2d(Math.PI)));
 
+        addAutonCommand("BouncePath");
+
         addCitrusCompatabileCommand();
         
 
