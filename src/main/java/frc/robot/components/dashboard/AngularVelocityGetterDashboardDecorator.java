@@ -9,18 +9,18 @@ package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IAngularVelocityGetterComponent;
+import frc.robot.components.AngularVelocityGetterComponent;
 
 /**
  * Add your docs here.
  */
 public class AngularVelocityGetterDashboardDecorator extends DashboardDecorator
-        implements IAngularVelocityGetterComponent {
+        implements AngularVelocityGetterComponent {
 
-    private IAngularVelocityGetterComponent angularVelocityGetterComponent;
+    private AngularVelocityGetterComponent angularVelocityGetterComponent;
 
     public AngularVelocityGetterDashboardDecorator(String name, String subsystem,
-            IAngularVelocityGetterComponent angularVelocityGetterComponent) {
+            AngularVelocityGetterComponent angularVelocityGetterComponent) {
         super(name, subsystem);
         this.angularVelocityGetterComponent = angularVelocityGetterComponent;
         send();

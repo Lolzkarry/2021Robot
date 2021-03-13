@@ -10,20 +10,20 @@ package frc.robot.subsystems.swerve.kinematic;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.IAngleSetterComponent;
-import frc.robot.components.IAngularVelocitySetterComponent;
+import frc.robot.components.AngleSetterComponent;
+import frc.robot.components.AngularVelocitySetterComponent;
 
 public class KinematicWheelModule extends SubsystemBase {
 
 
-  protected IAngleSetterComponent angleSetterComponent;
+  protected AngleSetterComponent angleSetterComponent;
   protected double angleRotsPerMotorRots;
   protected double driveRotsPerMotorRots;
-  protected IAngularVelocitySetterComponent angularVelocitySetterComponent;
+  protected AngularVelocitySetterComponent angularVelocitySetterComponent;
   protected Translation2d translationFromSwerveCenter;
   protected double maxSurfaceSpeed;
   protected double wheelDiameter;
-  public KinematicWheelModule(IAngleSetterComponent angleSetterComponent, IAngularVelocitySetterComponent angularVelocitySetterComponent, Translation2d translationFromSwerveCenter, double maxSurfaceSpeed, double wheelDiameter, double angleRotsPerMotorRots, double driveRotsPerMotorRots) {
+  public KinematicWheelModule(AngleSetterComponent angleSetterComponent, AngularVelocitySetterComponent angularVelocitySetterComponent, Translation2d translationFromSwerveCenter, double maxSurfaceSpeed, double wheelDiameter, double angleRotsPerMotorRots, double driveRotsPerMotorRots) {
     this.angleSetterComponent = angleSetterComponent;
     this.angularVelocitySetterComponent = angularVelocitySetterComponent;
     this.translationFromSwerveCenter = translationFromSwerveCenter;

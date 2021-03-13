@@ -7,12 +7,12 @@
 
 package frc.robot.components.virtual;
 
-import frc.robot.components.IGyroComponent;
+import frc.robot.components.GyroComponent;
 
 /**
- * A virtual {@link IGyroComponent} component.
+ * A virtual {@link GyroComponent} component.
  */
-public class VirtualGyroComponent implements IGyroComponent {
+public class VirtualGyroComponent implements GyroComponent {
 
     private double angle;
     private double offset;

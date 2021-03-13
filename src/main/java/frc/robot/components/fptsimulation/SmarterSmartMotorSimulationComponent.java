@@ -8,12 +8,12 @@
 package frc.robot.components.fptsimulation;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
 /**
  * Add your docs here.
  */
-public class SmarterSmartMotorSimulationComponent extends FptSimulationComponent implements ISmartMotorComponent{
+public class SmarterSmartMotorSimulationComponent extends FptSimulationComponent implements SmartMotorComponent {
 
     public final String MOTOR_TABLES_KEY = "SmarterSmartMotors",
     ANGLE_GETTER_KEY = "AngleGetter",

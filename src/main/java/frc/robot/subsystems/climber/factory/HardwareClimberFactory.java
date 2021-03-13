@@ -5,12 +5,11 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.climber.factory.IClimberFactory;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.components.hardware.SparkMaxComponent;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.subsystems.climber.ClimberMap;
-public class HardwareClimberFactory implements IClimberFactory {
+public class HardwareClimberFactory implements ClimberFactory {
     public Climber makeClimber() {
         SparkMaxComponent motor = new SparkMaxComponent(ClimberMap.CLIMBER_MOTOR_PORT, MotorType.kBrushless);
         motor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);

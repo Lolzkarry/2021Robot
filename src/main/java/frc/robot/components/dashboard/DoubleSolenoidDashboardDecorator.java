@@ -8,24 +8,24 @@
 package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IDoubleSolenoidComponent;
+import frc.robot.components.DoubleSolenoidComponent;
 
 /**
- * A {@link DashboardDecorator} for any {@link IDoubleSolenoidComponent}
+ * A {@link DashboardDecorator} for any {@link DoubleSolenoidComponent}
  * component.
  */
-public class DoubleSolenoidDashboardDecorator extends DashboardDecorator implements IDoubleSolenoidComponent {
+public class DoubleSolenoidDashboardDecorator extends DashboardDecorator implements DoubleSolenoidComponent {
 
     private boolean lastIsExtended = false;
-    private IDoubleSolenoidComponent ds;
+    private DoubleSolenoidComponent ds;
 
     /**
      * See {@link DashboardDecorator#DashboardDecorator(String, String)} for more
      * details.
      * 
-     * @param ds the {@link IDoubleSolenoidComponent} component to decorate
+     * @param ds the {@link DoubleSolenoidComponent} component to decorate
      */
-    public DoubleSolenoidDashboardDecorator(String name, String subsystem, IDoubleSolenoidComponent ds) {
+    public DoubleSolenoidDashboardDecorator(String name, String subsystem, DoubleSolenoidComponent ds) {
         super(name, subsystem);
         this.ds = ds;
         send();

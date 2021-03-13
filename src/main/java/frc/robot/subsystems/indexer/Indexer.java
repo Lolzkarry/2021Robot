@@ -2,12 +2,12 @@ package frc.robot.subsystems.indexer;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.IOutputSetterComponent;
+import frc.robot.components.OutputSetterComponent;
 
 public class Indexer extends SubsystemBase {
-    private IOutputSetterComponent motor;
-    IBallSensor sensor0, sensor1, sensor2, sensor3, sensor4, sensor5;
-    public Indexer(IOutputSetterComponent motor, IBallSensor sensor0, IBallSensor sensor1, IBallSensor sensor2, IBallSensor sensor3, IBallSensor sensor4, IBallSensor sensor5){
+    private OutputSetterComponent motor;
+    BallSensor sensor0, sensor1, sensor2, sensor3, sensor4, sensor5;
+    public Indexer(OutputSetterComponent motor, BallSensor sensor0, BallSensor sensor1, BallSensor sensor2, BallSensor sensor3, BallSensor sensor4, BallSensor sensor5){
         this.motor = motor;
         this.sensor0 = sensor0;
         this.sensor1 = sensor1;

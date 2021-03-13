@@ -4,7 +4,7 @@ import frc.robot.components.hardware.TalonSRXComponent;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.NetworkTableBallSensor;
 
-public class HardwareIndexerFactory implements IIndexerFactory{
+public class HardwareIndexerFactory implements IndexerFactory {
     /**
      *
      */

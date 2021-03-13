@@ -2,18 +2,18 @@ package frc.robot.subsystems.shooter.command;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.shooter.IShooterOI;
+import frc.robot.subsystems.shooter.ShooterOI;
 import frc.robot.subsystems.shooter.Shooter;
 
 
 public class ShootStraightCommand extends CommandBase {
     private Shooter shooter;
-    private IShooterOI oi;
+    private ShooterOI oi;
 
 
     
 
-    public ShootStraightCommand(Shooter shooter, IShooterOI oi) {
+    public ShootStraightCommand(Shooter shooter, ShooterOI oi) {
         this.shooter = shooter;
         this.oi = oi;
         addRequirements(shooter);

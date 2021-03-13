@@ -9,23 +9,23 @@ package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IAngleSetterComponent;
+import frc.robot.components.AngleSetterComponent;
 
 /**
- * A {@link DashboardDecorator} for any {@link IAngleSetterComponent} component.
+ * A {@link DashboardDecorator} for any {@link AngleSetterComponent} component.
  */
-public class AngleSetterDashboardDecorator extends DashboardDecorator implements IAngleSetterComponent {
+public class AngleSetterDashboardDecorator extends DashboardDecorator implements AngleSetterComponent {
 
     private double lastSetAngle = 0;
-    private IAngleSetterComponent setter;
+    private AngleSetterComponent setter;
 
     /**
      * See {@link DashboardDecorator#DashboardDecorator(String, String)} for more
      * details.
      * 
-     * @param setter the {@link IAngleSetterComponent} to decorate
+     * @param setter the {@link AngleSetterComponent} to decorate
      */
-    public AngleSetterDashboardDecorator(String name, String subsystem, IAngleSetterComponent setter) {
+    public AngleSetterDashboardDecorator(String name, String subsystem, AngleSetterComponent setter) {
         super(name + " " + "Angle Setter Component", subsystem);
         this.setter = setter;
         send();

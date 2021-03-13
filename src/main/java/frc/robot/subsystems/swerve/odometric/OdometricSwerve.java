@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import frc.robot.components.IGyroComponent;
+import frc.robot.components.GyroComponent;
 import frc.robot.subsystems.swerve.kinematic.KinematicSwerve;
 
 /**
@@ -25,7 +25,7 @@ public class OdometricSwerve extends KinematicSwerve {
     OdometricWheelModule[] odometricWheelModules;
     private Translation2d lastTranslation;
     private double lastTime;
-    public OdometricSwerve(IGyroComponent gyro, OdometricWheelModule... wheelModules) {
+    public OdometricSwerve(GyroComponent gyro, OdometricWheelModule... wheelModules) {
         super(gyro, wheelModules);
         odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(gyro.getAngle()));
         odometricWheelModules = wheelModules;

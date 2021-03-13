@@ -2,12 +2,12 @@ package frc.robot.subsystems.turret;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
 public class Turret extends SubsystemBase {
-    private ISmartMotorComponent turnMotor;
+    private SmartMotorComponent turnMotor;
     private double motorRotsPerTurretRots;
-    public Turret(ISmartMotorComponent turnMotor, double motorRotsPerTurretRots) {
+    public Turret(SmartMotorComponent turnMotor, double motorRotsPerTurretRots) {
         this.turnMotor = turnMotor;
         this.motorRotsPerTurretRots = motorRotsPerTurretRots;
     }

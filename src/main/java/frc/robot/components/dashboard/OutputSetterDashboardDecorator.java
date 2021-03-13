@@ -9,23 +9,23 @@ package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IOutputSetterComponent;
+import frc.robot.components.OutputSetterComponent;
 
 /**
- * A {@link DashboardDecorator} for any {@link IOutputSetterComponent} component.
+ * A {@link DashboardDecorator} for any {@link OutputSetterComponent} component.
  */
-public class OutputSetterDashboardDecorator extends DashboardDecorator implements IOutputSetterComponent {
+public class OutputSetterDashboardDecorator extends DashboardDecorator implements OutputSetterComponent {
 
     private double lastSetSpeed;
-    private IOutputSetterComponent setter;
+    private OutputSetterComponent setter;
 
     /**
      * See {@link DashboardDecorator#DashboardDecorator(String, String)} for more
      * details.
      * 
-     * @param setter the {@link IOutputSetterComponent} component to decorate
+     * @param setter the {@link OutputSetterComponent} component to decorate
      */
-    public OutputSetterDashboardDecorator(String name, String subsystem, IOutputSetterComponent setter) {
+    public OutputSetterDashboardDecorator(String name, String subsystem, OutputSetterComponent setter) {
         super(name, subsystem);
         this.setter = setter;
         send();
