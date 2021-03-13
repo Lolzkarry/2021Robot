@@ -5,18 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.containers;
-
-import edu.wpi.first.wpilibj2.command.Command;
+package frc.robot.components;
 
 /**
  * Add your docs here.
  */
-public interface IRobotContainer {
-    default Command getAutonomousCommand(){
-        return null;
-    }
-    default void teleopInit(){
-        
-    }
+public interface AngularVelocityGetterComponent {
+    double getAngularVelocity();
 }

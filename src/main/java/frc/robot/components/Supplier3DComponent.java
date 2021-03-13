@@ -7,9 +7,13 @@
 
 package frc.robot.components;
 
+import frc.robot.utility.Transform3D;
+
 /**
- * Add your docs here.
+ * An interface for any component which calculates the position and rotation of
+ * the robot.
  */
-public interface ISmartMotorComponent extends IAngleGetterComponent, IAngleSetterComponent,
-        IOutputSetterComponent, IOutputGetterComponent, IAngularVelocityGetterComponent, IAngularVelocitySetterComponent {
+public interface Supplier3DComponent {
+
+    Transform3D getTransform();
 }

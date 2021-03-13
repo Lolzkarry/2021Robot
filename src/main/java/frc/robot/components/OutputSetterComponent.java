@@ -4,7 +4,7 @@ package frc.robot.components;
  * An interface for any component which controls output. This usually refers to
  * motors.
  */
-public interface IOutputSetterComponent {
+public interface OutputSetterComponent {
     /**
      * Sets the output of the component in relative units. For example, +1.0 is the
      * maximum forward output of the component, and -1.0 is the maximum reverse output

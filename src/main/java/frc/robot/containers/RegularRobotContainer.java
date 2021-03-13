@@ -14,17 +14,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.factory.HardwareClimberFactory;
-import frc.robot.subsystems.climber.factory.IClimberFactory;
-import frc.robot.subsystems.shooter.IShooterOI;
+import frc.robot.subsystems.climber.factory.ClimberFactory;
+import frc.robot.subsystems.shooter.ShooterOI;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.command.ShootStraightCommand;
 import frc.robot.subsystems.shooter.factory.HardwareShooterFactory;
-import frc.robot.subsystems.shooter.factory.IShooterFactory;
-import frc.robot.subsystems.turret.ITurretOI;
+import frc.robot.subsystems.shooter.factory.ShooterFactory;
+import frc.robot.subsystems.turret.TurretOI;
 import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.turret.command.SetTurretAngleCommand;
 import frc.robot.subsystems.turret.factory.HardwareTurretFactory;
-import frc.robot.subsystems.turret.factory.ITurretFactory;
+import frc.robot.subsystems.turret.factory.TurretFactory;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -32,7 +32,7 @@ import frc.robot.subsystems.turret.factory.ITurretFactory;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class RegularRobotContainer implements ITurretOI, IShooterOI, IRobotContainer {
+public class RegularRobotContainer implements TurretOI, ShooterOI, RobotContainer {
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -41,13 +41,13 @@ public class RegularRobotContainer implements ITurretOI, IShooterOI, IRobotConta
   private double turretAngle;
   private double shooterAngle;
   private boolean turretActive;
-  private IShooterFactory shooterFactory;
+  private ShooterFactory shooterFactory;
   private Shooter shooter;
   private ShootStraightCommand shootCommand;
-  private ITurretFactory turretFactory;
+  private TurretFactory turretFactory;
   private Turret turret;
   private SetTurretAngleCommand turretAngleCommand;
-  private IClimberFactory climberFactory;
+  private ClimberFactory climberFactory;
   private Climber climber;
   private Joystick joystick;
   private JoystickButton button9;

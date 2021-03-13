@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 /**
  * Add your docs here.
  */
-public class ScratchpadRobotContainer implements IRobotContainer{
+public class ScratchpadRobotContainer implements RobotContainer {
     int count = 0;
     public ScratchpadRobotContainer(){
         var timeoutTest = 

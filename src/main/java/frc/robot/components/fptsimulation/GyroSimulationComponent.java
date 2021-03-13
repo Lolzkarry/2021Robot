@@ -9,12 +9,12 @@ package frc.robot.components.fptsimulation;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import frc.robot.components.IGyroComponent;
+import frc.robot.components.GyroComponent;
 
 /**
  * Add your docs here.
  */
-public class GyroSimulationComponent extends FptSimulationComponent implements IGyroComponent{
+public class GyroSimulationComponent extends FptSimulationComponent implements GyroComponent {
 
     NetworkTable gyrosTable;
     NetworkTable gyro;

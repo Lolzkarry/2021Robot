@@ -1,5 +1,5 @@
 package frc.robot.subsystems.arm;
 
-public interface IArmOI {
+public interface ArmOI {
     public double getArmAngle();
 }

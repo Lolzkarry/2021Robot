@@ -5,7 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.components.hardware.SparkMaxComponent;
 import frc.robot.subsystems.shooter.Shooter;
 
-public class HardwareShooterFactory implements IShooterFactory {
+public class HardwareShooterFactory implements ShooterFactory {
     /**
      *
      */

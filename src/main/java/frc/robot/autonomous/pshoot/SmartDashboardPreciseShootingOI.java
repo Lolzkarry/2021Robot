@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Add your docs here.
  */
-public class SmartDashboardPreciseShootingOI implements IPreciseShootingOI{
+public class SmartDashboardPreciseShootingOI implements PreciseShootingOI {
 
         public void putSmartDashboardValues(){
             SmartDashboard.putNumber("topSpeed", -1000);

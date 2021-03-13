@@ -1,5 +1,5 @@
 package frc.robot.subsystems.shooter;
 
-public interface IShooterOI {
+public interface ShooterOI {
     public boolean getShooterActive();
 }

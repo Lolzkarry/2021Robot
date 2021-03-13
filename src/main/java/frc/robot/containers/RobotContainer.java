@@ -5,11 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.indexer;
+package frc.robot.containers;
+
+import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * Add your docs here.
  */
-public interface IBallSensor {
-    boolean registersBall();
+public interface RobotContainer {
+    default Command getAutonomousCommand(){
+        return null;
+    }
+    default void teleopInit(){
+        
+    }
 }

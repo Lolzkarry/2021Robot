@@ -8,15 +8,15 @@
 package frc.robot.components.fptsimulation;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import frc.robot.components.IAngleGetterComponent;
-import frc.robot.components.IAngleSetterComponent;
-import frc.robot.components.IOutputSetterComponent;
+import frc.robot.components.AngleGetterComponent;
+import frc.robot.components.AngleSetterComponent;
+import frc.robot.components.OutputSetterComponent;
 
 /**
  * Add your docs here.
  */
 public class SmartMotorSimulationComponent extends FptSimulationComponent
-        implements IAngleGetterComponent, IAngleSetterComponent, IOutputSetterComponent {
+        implements AngleGetterComponent, AngleSetterComponent, OutputSetterComponent {
     public final String MOTOR_TABLES_KEY = "SmartMotors";
     public final String ANGLE_GETTER_COMPONENT_KEY = "AngleGetterComponent";
     public final String ANGLE_SETTER_COMPONENT_KEY = "AngleSetterComponent";

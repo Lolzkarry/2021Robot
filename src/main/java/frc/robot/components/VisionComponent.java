@@ -10,7 +10,7 @@ package frc.robot.components;
 /**
  * Add your docs here.
  */
-public interface IVisionComponent {
+public interface VisionComponent {
     enum CameraMode {
         VisionProcessor, DriverCamera
     }

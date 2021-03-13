@@ -7,12 +7,12 @@
 
 package frc.robot.components.virtual;
 
-import frc.robot.components.ICompressorComponent;
+import frc.robot.components.CompressorComponent;
 
 /**
- * A virtual {@link ICompressorComponent} component.
+ * A virtual {@link CompressorComponent} component.
  */
-public class VirtualCompressorComponent implements ICompressorComponent {
+public class VirtualCompressorComponent implements CompressorComponent {
     private boolean isEnabled;
 
     @Override

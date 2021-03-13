@@ -9,21 +9,21 @@ package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IAngleGetterComponent;
+import frc.robot.components.AngleGetterComponent;
 
 /**
- * A {@link DashboardDecorator} for any {@link IAngleGetterComponent}.
+ * A {@link DashboardDecorator} for any {@link AngleGetterComponent}.
  */
-public class AngleGetterDashboardDecorator extends DashboardDecorator implements IAngleGetterComponent {
-    private IAngleGetterComponent getter;
+public class AngleGetterDashboardDecorator extends DashboardDecorator implements AngleGetterComponent {
+    private AngleGetterComponent getter;
 
     /**
      * See {@link DashboardDecorator#DashboardDecorator(String, String)} for more
      * details.
      * 
-     * @param getter the {@link IAngleGetterComponent} component to decorate.
+     * @param getter the {@link AngleGetterComponent} component to decorate.
      */
-    public AngleGetterDashboardDecorator(String name, String subsystem, IAngleGetterComponent getter) {
+    public AngleGetterDashboardDecorator(String name, String subsystem, AngleGetterComponent getter) {
         super(name, subsystem);
         this.getter = getter;
         send();

@@ -1,14 +1,14 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
 public class Shooter extends SubsystemBase {
-    private ISmartMotorComponent topMotor;
-    private ISmartMotorComponent bottomMotor;
+    private SmartMotorComponent topMotor;
+    private SmartMotorComponent bottomMotor;
     private double desiredTopSpeed;
     private double desiredBottomSpeed;
-    public Shooter(ISmartMotorComponent topMotor, ISmartMotorComponent bottomMotor) {
+    public Shooter(SmartMotorComponent topMotor, SmartMotorComponent bottomMotor) {
         this.topMotor = topMotor;
         this.bottomMotor = bottomMotor;
     }

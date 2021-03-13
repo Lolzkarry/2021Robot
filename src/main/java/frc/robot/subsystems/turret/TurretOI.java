@@ -1,5 +1,5 @@
 package frc.robot.subsystems.turret;
 
-public interface ITurretOI {
+public interface TurretOI {
     public double getTurretAngle();
 }

@@ -13,7 +13,7 @@ import frc.robot.autonomous.VisionDistanceCalculator;
 /**
  * Add your docs here.
  */
-public class VisionPreciseShootingOI implements IPreciseShootingOI{
+public class VisionPreciseShootingOI implements PreciseShootingOI {
 
     VisionDistanceCalculator visionDistanceCalculator;
 

@@ -10,7 +10,6 @@ package frc.robot.containers;
 import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 import static frc.robot.autonomous.GenericAutonUtilities.createDefaultControllerBuilder;
 import static frc.robot.utility.ExtendedMath.withHardDeadzone;
-import static frc.robot.utility.ExtendedMath.withContinuousDeadzone;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.XboxController;
@@ -27,24 +26,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.autonomous.Autonomous_ForceIndexBallsCommand;
-import frc.robot.autonomous.pshoot.Autonomous_PreciseShootingCommand;
-import frc.robot.autonomous.pshoot.IPreciseShootingOI;
-import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.arm.Arm;
-import frc.robot.subsystems.indexer.Indexer;
-import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerveDashboardUtility;
 import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_AdvancedFollowTrajectoryCommand;
 import frc.robot.subsystems.swerve.odometric.factory.OdometricSimulatedSwerveFactory;
-import frc.robot.subsystems.turret.Turret;
-import frc.robot.subsystems.vision.VisionSubsystem;
 
 /**
  * Add your docs here.
  */
-public class PortfolioDemoContainer implements IRobotContainer{
+public class PortfolioDemoContainer implements RobotContainer {
     private XboxController controller = new XboxController(1);
     private OdometricSwerve swerve = new OdometricSimulatedSwerveFactory().makeSwerve();
     private OdometricSwerveDashboardUtility utility = new OdometricSwerveDashboardUtility(swerve);

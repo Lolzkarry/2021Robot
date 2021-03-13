@@ -5,7 +5,7 @@ package frc.robot.components;
  * value. This is the interface used for PID positional motors, such as a
  * TalonSRX.
  */
-public interface IAngleSetterComponent {
+public interface AngleSetterComponent {
     /**
      * Sets the component to the desired angle. This angle should be measured in
      * radians using standard angles (east is zero, positive is counter clockwise,

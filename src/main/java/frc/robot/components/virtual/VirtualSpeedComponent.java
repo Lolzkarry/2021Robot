@@ -7,12 +7,12 @@
 
 package frc.robot.components.virtual;
 
-import frc.robot.components.IOutputSetterComponent;
+import frc.robot.components.OutputSetterComponent;
 
 /**
- * A virtual {@link IOutputSetterComponent} component.
+ * A virtual {@link OutputSetterComponent} component.
  */
-public class VirtualSpeedComponent implements IOutputSetterComponent {
+public class VirtualSpeedComponent implements OutputSetterComponent {
 
     private double speed;
 

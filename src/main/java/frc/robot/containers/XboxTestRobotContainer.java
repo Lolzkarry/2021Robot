@@ -23,7 +23,7 @@ import frc.robot.subsystems.swerve.odometric.factory.OdometricSimulatedSwerveFac
 /**
  * Add your docs here.
  */
-public class XboxTestRobotContainer implements IRobotContainer {
+public class XboxTestRobotContainer implements RobotContainer {
     private XboxController controller = new XboxController(0);
     private OdometricSimulatedSwerveFactory factory = new OdometricSimulatedSwerveFactory();
     private OdometricSwerve swerve = factory.makeSwerve();

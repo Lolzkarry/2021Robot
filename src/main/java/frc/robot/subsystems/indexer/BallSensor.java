@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.components;
+package frc.robot.subsystems.indexer;
 
 /**
  * Add your docs here.
  */
-public interface IAngularVelocitySetterComponent {
-    public void setAngularVelocity(double velocity);
+public interface BallSensor {
+    boolean registersBall();
 }
