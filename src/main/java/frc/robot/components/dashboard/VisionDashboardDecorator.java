@@ -8,12 +8,12 @@
 package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IVisionComponent;
+import frc.robot.components.VisionComponent;
 
 /**
- * A {@link DashboardDecorator} for any {@link IVisionComponent} component.
+ * A {@link DashboardDecorator} for any {@link VisionComponent} component.
  */
-public class VisionDashboardDecorator extends DashboardDecorator implements IVisionComponent {
+public class VisionDashboardDecorator extends DashboardDecorator implements VisionComponent {
 
     private CameraMode lastSetCameraMode;
     private int lastSetPipeline;
@@ -22,15 +22,15 @@ public class VisionDashboardDecorator extends DashboardDecorator implements IVis
      * See {@link DashboardDecorator#DashboardDecorator(String, String)} for more
      * details.
      * 
-     * @param vision the {@link IVisionComponent} component to decorate
+     * @param vision the {@link VisionComponent} component to decorate
      */
-    public VisionDashboardDecorator(String name, String subsystem, IVisionComponent vision) {
+    public VisionDashboardDecorator(String name, String subsystem, VisionComponent vision) {
         super(name, subsystem);
         this.vision = vision;
         send();
     }
 
-    private IVisionComponent vision;
+    private VisionComponent vision;
 
     @Override
     public boolean hasValidTargets() {
