@@ -8,23 +8,23 @@
 package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.ICompressorComponent;
+import frc.robot.components.CompressorComponent;
 
 /**
- * A {@link DashboardDecorator} for any {@link ICompressorComponent} component.
+ * A {@link DashboardDecorator} for any {@link CompressorComponent} component.
  */
-public class CompressorDashboardDecorator extends DashboardDecorator implements ICompressorComponent {
+public class CompressorDashboardDecorator extends DashboardDecorator implements CompressorComponent {
 
     private boolean lastIsCompressing = false;
-    private ICompressorComponent compressor;
+    private CompressorComponent compressor;
 
     /**
      * See {@link DashboardDecorator#DashboardDecorator(String, String)} for more
      * details.
      * 
-     * @param compressor the {@link ICompressorComponent} to decorate.
+     * @param compressor the {@link CompressorComponent} to decorate.
      */
-    public CompressorDashboardDecorator(String name, String subsystem, ICompressorComponent compressor) {
+    public CompressorDashboardDecorator(String name, String subsystem, CompressorComponent compressor) {
         super(name + " " + "Compressor Component", subsystem);
         this.compressor = compressor;
         send();

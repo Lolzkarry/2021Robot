@@ -1,11 +1,11 @@
 package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.IOutputSetterComponent;
+import frc.robot.components.OutputSetterComponent;
 
 public class Intake extends SubsystemBase {
-    IOutputSetterComponent motor;
-    public Intake(IOutputSetterComponent motor){
+    OutputSetterComponent motor;
+    public Intake(OutputSetterComponent motor){
         this.motor = motor;
 
     }

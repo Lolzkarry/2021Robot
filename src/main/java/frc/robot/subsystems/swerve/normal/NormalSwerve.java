@@ -8,7 +8,7 @@
 package frc.robot.subsystems.swerve.normal;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.IGyroComponent;
+import frc.robot.components.GyroComponent;
 
 /**
  * The subsystem representing the swerve drive on the robot. A swerve drive is a
@@ -20,7 +20,7 @@ public class NormalSwerve extends SubsystemBase {
 
     private double length, width;
     private NormalWheelModule fl, fr, bl, br;
-    private IGyroComponent gyro;
+    private GyroComponent gyro;
 
     /**
      * The "rotation coefficient" represents a value that converts rotational input
@@ -51,7 +51,7 @@ public class NormalSwerve extends SubsystemBase {
      * @param gyro   the gyro which measures the rotation of the robot
      */
     public NormalSwerve(double length, double width, NormalWheelModule fl, NormalWheelModule fr, NormalWheelModule bl, NormalWheelModule br,
-            IGyroComponent gyro) {
+            GyroComponent gyro) {
         this.length = length;
         this.width = width;
         this.fl = fl;
@@ -146,7 +146,7 @@ public class NormalSwerve extends SubsystemBase {
 
     /**
      * Resets the gyro of the robot, effectively making its current angle zero. This
-     * is equivalent to calling {@link IGyroComponent#reset()}.
+     * is equivalent to calling {@link GyroComponent#reset()}.
      */
     public void resetGyro() {
         gyro.reset();

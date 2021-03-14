@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.IGyroComponent;
+import frc.robot.components.GyroComponent;
 
 public class KinematicSwerve extends SubsystemBase {
 
@@ -20,11 +20,11 @@ public class KinematicSwerve extends SubsystemBase {
   protected KinematicWheelModule[] wheelModules;
   protected double lowestMaximumWheelSpeed;
   protected double currentGyroZero = 0.0;
-  protected IGyroComponent gyro;
+  protected GyroComponent gyro;
   /**
    * Creates a new KinematicSwerve.
    */
-  public KinematicSwerve(IGyroComponent gyro, KinematicWheelModule... wheelModules) {
+  public KinematicSwerve(GyroComponent gyro, KinematicWheelModule... wheelModules) {
     this.wheelModules = wheelModules;
     this.gyro = gyro;
     

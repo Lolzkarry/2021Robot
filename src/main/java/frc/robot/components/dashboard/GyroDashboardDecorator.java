@@ -9,22 +9,22 @@ package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IGyroComponent;
+import frc.robot.components.GyroComponent;
 
 /**
  * A {@link #DashboardDecorator} for any {@link #IGyroComponent} component.
  */
-public class GyroDashboardDecorator extends DashboardDecorator implements IGyroComponent {
+public class GyroDashboardDecorator extends DashboardDecorator implements GyroComponent {
 
-    private IGyroComponent gyro;
+    private GyroComponent gyro;
 
     /**
      * See {@link DashboardDecorator#DashboardDecorator(String, String)} for more
      * details.
      * 
-     * @param gyro the {@link IGyroComponent} component to decorate
+     * @param gyro the {@link GyroComponent} component to decorate
      */
-    public GyroDashboardDecorator(String name, String subsystem, IGyroComponent gyro) {
+    public GyroDashboardDecorator(String name, String subsystem, GyroComponent gyro) {
         super(name, subsystem);
         this.gyro = gyro;
         send();

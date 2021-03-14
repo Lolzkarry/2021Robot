@@ -10,7 +10,7 @@ package frc.robot.subsystems.swerve.odometric;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 import frc.robot.subsystems.swerve.kinematic.KinematicWheelModule;
 import static frc.robot.utility.ExtendedMath.getShortestRadianToTarget;
 
@@ -19,14 +19,14 @@ import static frc.robot.utility.ExtendedMath.getShortestRadianToTarget;
  */
 public class OdometricWheelModule extends KinematicWheelModule {
 
-    protected ISmartMotorComponent driveMotor;
-    protected ISmartMotorComponent angleMotor;
+    protected SmartMotorComponent driveMotor;
+    protected SmartMotorComponent angleMotor;
     protected boolean wheelWrapEnabled = true;
     protected boolean wheelInversionEnabled = true;
 
-    public OdometricWheelModule(ISmartMotorComponent angleMotor, ISmartMotorComponent driveMotor, Translation2d translationFromSwerveCenter,
-            double maxSurfaceSpeed, double wheelDiameter,
-            double angleRotsPerMotorRots, double driveRotsPerMotorRots) {
+    public OdometricWheelModule(SmartMotorComponent angleMotor, SmartMotorComponent driveMotor, Translation2d translationFromSwerveCenter,
+                                double maxSurfaceSpeed, double wheelDiameter,
+                                double angleRotsPerMotorRots, double driveRotsPerMotorRots) {
             super(angleMotor, driveMotor, translationFromSwerveCenter, maxSurfaceSpeed, wheelDiameter, angleRotsPerMotorRots, driveRotsPerMotorRots);
             this.driveMotor = driveMotor;
             this.angleMotor = angleMotor;

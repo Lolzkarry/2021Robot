@@ -9,10 +9,10 @@ package frc.robot.components;
 
 /**
  * An interface for any component that gets the angle of something, for example,
- * an encoder. For gyros, use {@link IGyroComponent}, as it contains methods
- * such as {@link IGyroComponent#reset()} for better gyro control.
+ * an encoder. For gyros, use {@link GyroComponent}, as it contains methods
+ * such as {@link GyroComponent#reset()} for better gyro control.
  */
-public interface IAngleGetterComponent {
+public interface AngleGetterComponent {
     /**
      * Gets the measured angle in radians. This angle is measured using standard
      * angles (east is zero, positive is counter clockwise, negative is clockwise)

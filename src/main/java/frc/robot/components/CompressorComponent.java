@@ -14,7 +14,7 @@ package frc.robot.components;
  * {@link frc.robot.components.virtual.VirtualCompressorComponent
  * VirtualCompressorComponent}.
  */
-public interface ICompressorComponent {
+public interface CompressorComponent {
     /**
      * Start the compressor, if not already running.
      */

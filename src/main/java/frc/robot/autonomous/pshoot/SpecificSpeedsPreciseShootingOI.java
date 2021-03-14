@@ -10,7 +10,7 @@ package frc.robot.autonomous.pshoot;
 /**
  * Add your docs here.
  */
-public class SpecificSpeedsPreciseShootingOI implements IPreciseShootingOI{
+public class SpecificSpeedsPreciseShootingOI implements PreciseShootingOI {
         private double topSpeed;
         private double bottomSpeed;
         private double coefficient;

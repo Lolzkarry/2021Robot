@@ -5,7 +5,7 @@ import frc.robot.components.hardware.SparkMaxComponent;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeMap;
 
-public class HardwareIntakeFactory implements IIntakeFactory {
+public class HardwareIntakeFactory implements IntakeFactory {
     /**
      *
      */

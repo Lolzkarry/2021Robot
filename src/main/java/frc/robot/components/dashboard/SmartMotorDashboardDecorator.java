@@ -8,15 +8,15 @@
 package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
 /**
  * Add your docs here.
  */
-public class SmartMotorDashboardDecorator extends DashboardDecorator implements ISmartMotorComponent {
-    private ISmartMotorComponent component;
+public class SmartMotorDashboardDecorator extends DashboardDecorator implements SmartMotorComponent {
+    private SmartMotorComponent component;
 
-    public SmartMotorDashboardDecorator(String name, String subsystem, ISmartMotorComponent component) {
+    public SmartMotorDashboardDecorator(String name, String subsystem, SmartMotorComponent component) {
         super(name, subsystem);
         this.component = component;
     }

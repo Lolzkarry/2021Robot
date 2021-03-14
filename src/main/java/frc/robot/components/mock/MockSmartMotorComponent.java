@@ -7,9 +7,9 @@
 
 package frc.robot.components.mock;
 
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
-public class MockSmartMotorComponent implements ISmartMotorComponent {
+public class MockSmartMotorComponent implements SmartMotorComponent {
 
     private double lastSetAngle, returnGetAngle, lastSetOutput, returnGetOutput, lastSetAngularVelocity,
             returnAngularVelocity;

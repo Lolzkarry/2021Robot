@@ -10,12 +10,12 @@ package frc.robot.components.hardware;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
 /**
  * Add your docs here.
  */
-public class SparkMaxComponent extends CANSparkMax implements ISmartMotorComponent{
+public class SparkMaxComponent extends CANSparkMax implements SmartMotorComponent {
 
     public SparkMaxComponent(int deviceID, MotorType type) {
         super(deviceID, type);

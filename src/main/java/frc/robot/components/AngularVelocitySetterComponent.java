@@ -5,14 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.autonomous.pshoot;
+package frc.robot.components;
 
 /**
  * Add your docs here.
  */
-public interface IPreciseShootingOI{
-    double getTopSpeed();
-    double getBottomSpeed();
-    double getCoefficient();
-    double getThreshold();
-  }
+public interface AngularVelocitySetterComponent {
+    public void setAngularVelocity(double velocity);
+}

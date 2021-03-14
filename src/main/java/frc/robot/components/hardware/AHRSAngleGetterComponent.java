@@ -10,12 +10,12 @@ package frc.robot.components.hardware;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
-import frc.robot.components.IGyroComponent;
+import frc.robot.components.GyroComponent;
 
 /**
- * An {@link IGyroComponent} wrapper for {@link AHRS}.
+ * An {@link GyroComponent} wrapper for {@link AHRS}.
  */
-public class AHRSAngleGetterComponent extends AHRS implements IGyroComponent {
+public class AHRSAngleGetterComponent extends AHRS implements GyroComponent {
 
     /**
      * @see AHRS#AHRS(Port)

@@ -24,14 +24,14 @@ import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.factory.EntropySwerveFactory;
 import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.turret.factory.HardwareTurretFactory;
-import frc.robot.subsystems.turret.factory.ITurretFactory;
+import frc.robot.subsystems.turret.factory.TurretFactory;
 import frc.robot.subsystems.vision.VisionSubsystem;
 
 import static frc.robot.utility.ExtendedMath.withHardDeadzone;
 
-public class RobotContainerTwo implements IRobotContainer {
+public class RobotContainerTwo implements RobotContainer {
     private Turret turret;
-    private ITurretFactory factory;
+    private TurretFactory factory;
     private VisionSubsystem vision;
     private Joystick joystick = new Joystick(0);
     private JoystickButton button1 = new JoystickButton(joystick, 1);

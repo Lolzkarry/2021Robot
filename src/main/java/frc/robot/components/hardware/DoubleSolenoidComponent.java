@@ -8,12 +8,11 @@
 package frc.robot.components.hardware;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import frc.robot.components.IDoubleSolenoidComponent;
 
 /**
- * An {@link IDoubleSolenoidComponent} wrapper for {@link DoubleSolenoid}.
+ * An {@link frc.robot.components.DoubleSolenoidComponent} wrapper for {@link DoubleSolenoid}.
  */
-public class DoubleSolenoidComponent extends DoubleSolenoid implements IDoubleSolenoidComponent {
+public class DoubleSolenoidComponent extends DoubleSolenoid implements frc.robot.components.DoubleSolenoidComponent {
 
     /**
      * @see DoubleSolenoid#DoubleSolenoid(int, int, int)

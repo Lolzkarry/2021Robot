@@ -2,12 +2,12 @@ package frc.robot.subsystems.arm;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.IAngleSetterComponent;
+import frc.robot.components.AngleSetterComponent;
 
 public class Arm extends SubsystemBase {
-    IAngleSetterComponent motor;
+    AngleSetterComponent motor;
     public final double ARM_ROTS_PER_MOTOR_ROTS = 0.2; //(Math.PI/2)/(3600.0/4096.0);
-    public Arm(IAngleSetterComponent motor) {
+    public Arm(AngleSetterComponent motor) {
         this.motor = motor;
     }
 

@@ -7,14 +7,14 @@
 
 package frc.robot.components.virtual;
 
-import frc.robot.components.IAngleGetterComponent;
-import frc.robot.components.IAngleSetterComponent;
+import frc.robot.components.AngleGetterComponent;
+import frc.robot.components.AngleSetterComponent;
 
 /**
- * A virtual component which implements {@link IAngleGetterComponent} and
- * {@link IAngleSetterComponent}.
+ * A virtual component which implements {@link AngleGetterComponent} and
+ * {@link AngleSetterComponent}.
  */
-public class VirtualAngleComponent implements IAngleGetterComponent, IAngleSetterComponent {
+public class VirtualAngleComponent implements AngleGetterComponent, AngleSetterComponent {
 
     private double angle;
 

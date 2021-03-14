@@ -3,7 +3,7 @@ package frc.robot.subsystems.arm.factory;
 import frc.robot.components.hardware.TalonSRXComponent;
 import frc.robot.subsystems.arm.Arm;
 
-public class HardwareArmFactory implements IArmFactory {
+public class HardwareArmFactory implements ArmFactory {
     /**
      *
      */

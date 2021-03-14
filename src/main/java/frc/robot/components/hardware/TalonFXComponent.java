@@ -10,12 +10,12 @@ package frc.robot.components.hardware;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
 /**
  * Add your docs here.
  */
-public class TalonFXComponent extends TalonFX implements ISmartMotorComponent {
+public class TalonFXComponent extends TalonFX implements SmartMotorComponent {
 
     public static final int TICKS_PER_REVOLUTION = 2048;
     public static final double TICKS_PER_DEGREE = TICKS_PER_REVOLUTION / 360.0;

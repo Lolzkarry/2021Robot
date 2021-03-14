@@ -44,7 +44,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 /**
  * Add your docs here.
  */
-public class AutonRobotContainer implements IRobotContainer{
+public class AutonRobotContainer implements RobotContainer {
     private OdometricSwerve swerve;
     private Joystick joystick;
     private JoystickButton resetGyro, indexCommand;

@@ -8,14 +8,14 @@
 package frc.robot.subsystems.swerve.kinematic.command;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.swerve.ISwerveOI;
+import frc.robot.subsystems.swerve.SwerveOI;
 import frc.robot.subsystems.swerve.kinematic.KinematicSwerve;
 import frc.robot.utility.OutputRamper;
 
 public class KinematicSwerve_RampedDriveCommand extends CommandBase {
   private KinematicSwerve swerve;
   private OutputRamper xRamper, yRamper, wRamper;
-  private ISwerveOI oi;
+  private SwerveOI oi;
   
   /**
    * Creates a new KinematicSwerve_RampedDriveCommand.
@@ -50,7 +50,7 @@ public class KinematicSwerve_RampedDriveCommand extends CommandBase {
   }
 
   public KinematicSwerve_RampedDriveCommand(KinematicSwerve swerve, OutputRamper xRamper, OutputRamper yRamper,
-      OutputRamper wRamper, ISwerveOI oi) {
+      OutputRamper wRamper, SwerveOI oi) {
     this.swerve = swerve;
     this.xRamper = xRamper;
     this.yRamper = yRamper;

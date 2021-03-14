@@ -7,13 +7,13 @@
 
 package frc.robot.components.virtual;
 
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 
 /**
  * Add your docs here.
  */
 @Deprecated
-public class VirtualSmartMotorComponent implements ISmartMotorComponent{
+public class VirtualSmartMotorComponent implements SmartMotorComponent {
 
     private double currentRadians = 0.0;
     private double radiansPerSecond = 0.0;

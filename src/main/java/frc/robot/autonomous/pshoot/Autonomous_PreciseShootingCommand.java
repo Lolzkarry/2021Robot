@@ -14,11 +14,11 @@ import frc.robot.subsystems.shooter.Shooter;
 public class Autonomous_PreciseShootingCommand extends CommandBase {
   private Shooter shooter;
   private Indexer indexer;
-  private IPreciseShootingOI oi;
+  private PreciseShootingOI oi;
   /**
    * Creates a new Autonomous_PreciseShootingCommand.
    */
-  public Autonomous_PreciseShootingCommand(Shooter shooter, Indexer indexer, IPreciseShootingOI oi) {
+  public Autonomous_PreciseShootingCommand(Shooter shooter, Indexer indexer, PreciseShootingOI oi) {
     this.shooter = shooter;
     this.indexer = indexer;
     this.oi = oi;

@@ -8,12 +8,12 @@
 package frc.robot.components.hardware;
 
 import edu.wpi.first.wpilibj.VictorSP;
-import frc.robot.components.IOutputSetterComponent;
+import frc.robot.components.OutputSetterComponent;
 
 /**
  * Add your docs here.
  */
-public class VictorSPComponent extends VictorSP implements IOutputSetterComponent{
+public class VictorSPComponent extends VictorSP implements OutputSetterComponent {
 
     public VictorSPComponent(int channel) {
         super(channel);

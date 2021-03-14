@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Add your docs here.
  */
-public class NetworkTableBallSensor implements IBallSensor{
+public class NetworkTableBallSensor implements BallSensor {
     private double threshold;
     private String name;
     public NetworkTableBallSensor(String name, double threshold){

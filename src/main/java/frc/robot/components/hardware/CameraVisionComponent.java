@@ -1,7 +1,7 @@
 package frc.robot.components.hardware;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.components.IVisionComponent;
+import frc.robot.components.VisionComponent;
 
 public class CameraVisionComponent {
     /**

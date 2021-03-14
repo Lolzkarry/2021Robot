@@ -14,7 +14,7 @@ package frc.robot.components;
  * {@link frc.robot.components.virtual.VirtualDoubleSolenoidComponent
  * VirtualDoubleSolenoidComponent}.
  */
-public interface IDoubleSolenoidComponent {
+public interface DoubleSolenoidComponent {
     /**
      * Returns whether the solenoid is extended or not.
      * 

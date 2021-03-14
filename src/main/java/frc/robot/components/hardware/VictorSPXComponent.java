@@ -9,12 +9,12 @@ package frc.robot.components.hardware;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import frc.robot.components.IOutputSetterComponent;
+import frc.robot.components.OutputSetterComponent;
 
 /**
- * An {@link IOutputSetterComponent} wrapper for {@link VictorSPX}.
+ * An {@link OutputSetterComponent} wrapper for {@link VictorSPX}.
  */
-public class VictorSPXComponent extends VictorSPX implements IOutputSetterComponent {
+public class VictorSPXComponent extends VictorSPX implements OutputSetterComponent {
 
     /**
      * @see VictorSPX#VictorSPX(int)

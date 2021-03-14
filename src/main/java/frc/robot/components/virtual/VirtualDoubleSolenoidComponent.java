@@ -7,12 +7,12 @@
 
 package frc.robot.components.virtual;
 
-import frc.robot.components.IDoubleSolenoidComponent;
+import frc.robot.components.DoubleSolenoidComponent;
 
 /**
- * A virtual {@link IDoubleSolenoidComponent} component.
+ * A virtual {@link DoubleSolenoidComponent} component.
  */
-public class VirtualDoubleSolenoidComponent implements IDoubleSolenoidComponent {
+public class VirtualDoubleSolenoidComponent implements DoubleSolenoidComponent {
 
     private boolean _isExtended;
 

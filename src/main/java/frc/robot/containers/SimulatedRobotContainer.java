@@ -6,8 +6,6 @@ package frc.robot.containers;
 
 import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 import static frc.robot.autonomous.GenericAutonUtilities.createDefaultControllerBuilder;
-import static frc.robot.utility.ExtendedMath.withHardDeadzone;
-import static frc.robot.utility.ExtendedMath.withContinuousDeadzone;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,7 +21,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
-public class SimulatedRobotContainer implements IRobotContainer {
+public class SimulatedRobotContainer implements RobotContainer {
     XboxController controller = new XboxController(0);
     OdometricSwerve swerve = new OdometricSimulatedSwerveFactory().makeSwerve();
 

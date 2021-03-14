@@ -8,15 +8,15 @@
 package frc.robot.subsystems.vision;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.IVisionComponent;
+import frc.robot.components.VisionComponent;
 
 public class VisionSubsystem extends SubsystemBase {
 
-  private IVisionComponent vision;
+  private VisionComponent vision;
   /**
    * Creates a new VisionSubsystem.
    */
-  public VisionSubsystem(IVisionComponent vision) {
+  public VisionSubsystem(VisionComponent vision) {
     this.vision = vision;
     vision.setPipeline(4);
   }

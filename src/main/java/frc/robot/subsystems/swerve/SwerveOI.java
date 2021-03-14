@@ -10,7 +10,7 @@ package frc.robot.subsystems.swerve;
 /**
  * An interface which defines all the methods required in order to drive a {@link Swerve} drive.
  */
-public interface ISwerveOI {
+public interface SwerveOI {
     /**
      * Gets the X input at which to drive the {@link Swerve} drive.
      * 

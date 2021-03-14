@@ -8,12 +8,11 @@
 package frc.robot.components.hardware;
 
 import edu.wpi.first.wpilibj.Compressor;
-import frc.robot.components.ICompressorComponent;
 
 /**
- * An {@link ICompressorComponent} wrapper for {@link Compressor}.
+ * An {@link frc.robot.components.CompressorComponent} wrapper for {@link Compressor}.
  */
-public class CompressorComponent extends Compressor implements ICompressorComponent {
+public class CompressorComponent extends Compressor implements frc.robot.components.CompressorComponent {
     /**
      * @see Compressor#Compressor(int)
      */

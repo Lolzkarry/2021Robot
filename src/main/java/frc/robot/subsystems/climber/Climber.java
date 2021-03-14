@@ -1,11 +1,11 @@
 package frc.robot.subsystems.climber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.components.ISmartMotorComponent;
+import frc.robot.components.SmartMotorComponent;
 public class Climber extends SubsystemBase{
-    private ISmartMotorComponent motor;
+    private SmartMotorComponent motor;
 
-    public Climber(ISmartMotorComponent motor) {
+    public Climber(SmartMotorComponent motor) {
         this.motor = motor;
     }
 

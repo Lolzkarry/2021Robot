@@ -9,15 +9,15 @@ package frc.robot.components.dashboard;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.components.IOutputGetterComponent;
+import frc.robot.components.OutputGetterComponent;
 
 /**
  * Add your docs here.
  */
-public class OutputGetterDashboardDecorator extends DashboardDecorator implements IOutputGetterComponent{
+public class OutputGetterDashboardDecorator extends DashboardDecorator implements OutputGetterComponent {
 
-    private IOutputGetterComponent speedGetterComponent;
-    public OutputGetterDashboardDecorator(IOutputGetterComponent speedGetterComponent, String name, String subsystem) {
+    private OutputGetterComponent speedGetterComponent;
+    public OutputGetterDashboardDecorator(OutputGetterComponent speedGetterComponent, String name, String subsystem) {
         super(name, subsystem);
         this.speedGetterComponent = speedGetterComponent;
         send();

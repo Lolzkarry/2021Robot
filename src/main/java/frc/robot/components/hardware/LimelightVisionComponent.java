@@ -9,19 +9,19 @@ package frc.robot.components.hardware;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.components.I3DSupplierComponent;
-import frc.robot.components.IVisionComponent;
+import frc.robot.components.Supplier3DComponent;
+import frc.robot.components.VisionComponent;
 import frc.robot.utility.Transform3D;
 
 /**
- * An {@link IVisionComponent} wrapper for a Limelight vision processor.
+ * An {@link VisionComponent} wrapper for a Limelight vision processor.
  */
-public class LimelightVisionComponent implements IVisionComponent, I3DSupplierComponent {
+public class LimelightVisionComponent implements VisionComponent, Supplier3DComponent {
 
     private NetworkTable table;
 
     /**
-     * Creates a new IVisionComponent component, which is essentially a wrapper
+     * Creates a new VisionComponent component, which is essentially a wrapper
      * around the networktable entries modified by a Limelight.
      */
     public LimelightVisionComponent() {

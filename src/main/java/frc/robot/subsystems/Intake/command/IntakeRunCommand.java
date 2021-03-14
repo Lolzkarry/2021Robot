@@ -1,14 +1,14 @@
 package frc.robot.subsystems.Intake.command;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake.IIntakeOI;
+import frc.robot.subsystems.Intake.IntakeOI;
 import frc.robot.subsystems.Intake.Intake;
 
 
 public class IntakeRunCommand extends CommandBase {
     private Intake intake;
-    private IIntakeOI oi;
-    public IntakeRunCommand(Intake intake, IIntakeOI oi) {
+    private IntakeOI oi;
+    public IntakeRunCommand(Intake intake, IntakeOI oi) {
         this.intake = intake;
         this.oi = oi;
         addRequirements(intake);

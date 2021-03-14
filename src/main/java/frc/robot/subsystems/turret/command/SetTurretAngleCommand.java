@@ -1,14 +1,14 @@
 package frc.robot.subsystems.turret.command;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.turret.ITurretOI;
+import frc.robot.subsystems.turret.TurretOI;
 import frc.robot.subsystems.turret.Turret;
 
 
 public class SetTurretAngleCommand extends CommandBase {
     private Turret turret;
-    private ITurretOI oi;
-    public SetTurretAngleCommand(Turret turret, ITurretOI oi) {
+    private TurretOI oi;
+    public SetTurretAngleCommand(Turret turret, TurretOI oi) {
         this.turret = turret;
         this.oi = oi;
         addRequirements(turret);

@@ -7,12 +7,12 @@
 
 package frc.robot.components.virtual;
 
-import frc.robot.components.IVisionComponent;
+import frc.robot.components.VisionComponent;
 
 /**
  * A virtual {@link IVision} component.
  */
-public class VirtualVisionComponent implements IVisionComponent {
+public class VirtualVisionComponent implements VisionComponent {
 
     private boolean _hasValidTargets = false;
 
