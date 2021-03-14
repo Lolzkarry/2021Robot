@@ -134,5 +134,9 @@ public class AdvancedSwerveController {
         public Translation2d getUnitDirectionVector(Translation2d currentTranslation){
             return ExtendedMath.normalize(getOffsetToCurrentState(currentTranslation));
         }
+
+        public void setDesiredRotationOffset(double offset){  //rotation offset, in radians
+            this.desiredRotationOffset = offset;
+        }
     
 }
