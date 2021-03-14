@@ -26,6 +26,6 @@ public class BouncePathCommand extends SequentialCommandGroup {
         controllerPart2.setDesiredRotationOffset(Math.PI);  //commands to reverse rotation direction for the second and fourth parts of the path, to avoid unnecessary rotation
         controllerPart4.setDesiredRotationOffset(Math.PI);
 
-        addCommands();
+        addCommands(pathPart1, pathPart2, pathPart3, pathPart4);
     }
 }
