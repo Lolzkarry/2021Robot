@@ -14,25 +14,24 @@ import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.command.AdvancedSwerveController;
 import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_AdvancedFollowTrajectoryCommand;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 
-public class GalacticSearch extends ParallelCommandGroup { //TODO: Create another command to identify which path to take
+public class GalacticSearchCommand extends ParallelCommandGroup { //TODO: Create another command to identify which path to take
     private OdometricSwerve_AdvancedFollowTrajectoryCommand pathCommand;
     private String[][] paths;
     private HashMap<Character, Integer> arguments;
-    public GalacticSearch(OdometricSwerve swerve, Intake intake, Indexer indexer, Arm arm, char path, char color) { //Command to run galactic search path, path takes either a or b as argument and color takes r or b
-        addRequirements(swerve, intake);
+    public GalacticSearchCommand(OdometricSwerve swerve, Intake intake, Indexer indexer, Arm arm, char path, char color) { //Command to run galactic search path, path takes either a or b as argument and color takes r or b
+        addRequirements(swerve, intake, indexer, arm);
 
         arguments.put('R', 0);   //maps arguments for A, B, Red, Blue, to path names
-        arguments.put('r', 0);
+        arguments.put('r', 0);   //also Path B and color Blue both map to 1 that's cool
         arguments.put('B', 1);
         arguments.put('b', 1);
         arguments.put('A', 0);
         arguments.put('a', 0);
-        arguments.put('B', 1);
-        arguments.put('b', 1);
         paths[0][0] = "GSearchARed";   //TODO: add the actual filenames
         paths[0][1] = "GSearchABlue";
         paths[1][0] = "GSearchBRed";
@@ -48,7 +47,6 @@ public class GalacticSearch extends ParallelCommandGroup { //TODO: Create anothe
         catch(NullPointerException exception){
             DriverStation.reportError("Invalid argument given to GalacticSearch command", exception.getStackTrace());
         }
-
         addCommands(setArm, intakeCommand, pathCommand.andThen(resetArm));
     }
 }
