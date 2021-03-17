@@ -42,7 +42,7 @@ public class GalacticSearchCommand extends ParallelCommandGroup { //TODO: Create
         Command resetArm = new InstantCommand(() -> arm.setAngle(0));
         try{
             AdvancedSwerveController controller = new AdvancedSwerveController(0.1, 0.1, false, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory(paths[arguments.get(path)][arguments.get(color)]).getStates().toArray(Trajectory.State[]::new));
-            Command pathCommand = new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, controller);
+            pathCommand = new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, controller);
         }
         catch(NullPointerException exception){
             DriverStation.reportError("Invalid argument given to GalacticSearch command", exception.getStackTrace());
