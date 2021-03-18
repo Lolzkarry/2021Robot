@@ -21,11 +21,11 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
-public class SimulatedRobotContainer implements RobotContainer {
+public class TestRobotContainer implements RobotContainer {
     XboxController controller = new XboxController(0);
     OdometricSwerve swerve = new OdometricSimulatedSwerveFactory().makeSwerve();
 
-    public SimulatedRobotContainer() {
+    public TestRobotContainer() {
         swerve.setDefaultCommand(
                 new RunCommand(() -> swerve.moveRobotCentric(withDeadzone(controller.getX(Hand.kLeft), 0.2) * 10,
                         -withDeadzone(controller.getY(Hand.kLeft), 0.2) * 10,
