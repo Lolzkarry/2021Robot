@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
 import frc.robot.components.hardware.LimelightVisionComponent;
 import frc.robot.components.hardware.TalonSRXComponent;
-import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.NetworkTableBallSensor;

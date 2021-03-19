@@ -8,7 +8,7 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.indexer.Indexer;
 
 public class Autonomous_IndexBallsCommand extends CommandBase {
