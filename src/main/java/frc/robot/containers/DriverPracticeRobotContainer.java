@@ -26,6 +26,7 @@ import frc.robot.autonomous.Autonomous_ForceIndexBallsCommand;
 import frc.robot.autonomous.GenericAutonUtilities;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
 import frc.robot.autonomous.Autonomous_SingleSensorIndexBallsCommand;
+import frc.robot.autonomous.BouncePathCommand;
 import frc.robot.autonomous.VisionDistanceCalculator;
 import frc.robot.autonomous.pshoot.VisionPreciseShootingOI;
 import frc.robot.components.hardware.CameraVisionComponent;
@@ -93,7 +94,7 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
     private VisionDistanceCalculator visionDistanceCalculator;
     private VisionPreciseShootingOI visionPreciseShootingOI;
 
-    private double xSensitivity = 4, ySensitivity = 4, zSensitivity = 4, xDeadzone = 0.2, yDeadzone = 0.2,
+    private double xSensitivity = 01, ySensitivity = 01, zSensitivity = 1.5, xDeadzone = 0.2, yDeadzone = 0.2,
             zDeadzone = 0.3;
 
     private double turretRadianOffset = 0.0;
@@ -167,7 +168,10 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
         autonomousChooser.addOption(
             "Example Autonomous", 
             createExampleAutonomousCommand());
-
+        autonomousChooser.addOption(
+            "Bounce Path",
+            new BouncePathCommand(swerve)
+        );
         SmartDashboard.putData("Selected Auto", autonomousChooser);
     }
 
@@ -430,7 +434,7 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
     }
 
     private void configureSwerve() {
-        swerve.setDefaultCommand(createHardDeadzoneSwerveCommand());
+        swerve.setDefaultCommand(createContinuousDeadzoneSwerveCommand());
         alignToLoadButton.whenHeld(trackLoadingCommand);
     }
     private CommandBase createHardDeadzoneSwerveCommand(){

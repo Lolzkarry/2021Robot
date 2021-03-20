@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import frc.robot.autonomous.pshoot.SmartDashboardPreciseShootingOI;
 import frc.robot.utility.ExtendedMath;
 
 /**
@@ -32,7 +34,7 @@ public class AdvancedSwerveController {
         private int currentStateIndex = 0 ;
         private Translation2d axis;
         private double projectedDesiredTranslationOffset = 0;
-        private double desiredRotationOffset = 0;
+        private Rotation2d desiredRotationOffset = new Rotation2d();
         private Rotation2d targetRotation;
         private double maxVelocity;
         public AdvancedSwerveController(double initialAllowableTranslationError, double finalAllowableTranslationError, boolean enableRotation, double allowableRotationError, boolean enableTranslation, double kP, double kW, Rotation2d endRotation, double maxVelocity, Trajectory.State... states){
@@ -54,8 +56,11 @@ public class AdvancedSwerveController {
         }
         public double calculateTranslationOutput(Translation2d position){
             double valueToReturn = 0.0;
-            if(enableTranslation)
-                valueToReturn = (projectedDesiredTranslationOffset - getProjectedOffsetFromTarget(position)) * kP + currentState.velocityMetersPerSecond;
+            if(enableTranslation){
+                var bruh = getProjectedOffsetFromTarget(position);
+                SmartDashboard.putNumber("Controller Debuggess/Projected Offset from Target", bruh);
+                valueToReturn = (projectedDesiredTranslationOffset - bruh) * kP + currentState.velocityMetersPerSecond;
+            }
             else
                 valueToReturn = 0.0;
             
@@ -68,9 +73,25 @@ public class AdvancedSwerveController {
         }
         public double calculateRotationOutput(Rotation2d rotation){
           if(enableRotation && continuousRotation == false)
-            return (desiredRotationOffset + targetRotation.minus(rotation).getRadians()) * kW;
+            return (desiredRotationOffset.plus(targetRotation).minus(rotation).getRadians()) * kW;
           else if (enableRotation && continuousRotation == true){
-              return (desiredRotationOffset + currentState.poseMeters.getRotation().getRadians());
+
+            var target = currentState.poseMeters.getRotation();
+            var targetWithOffset = target.plus(desiredRotationOffset);
+            var difference = target.minus(rotation);
+            var differenceWithOffset = targetWithOffset.minus(rotation);
+            
+
+
+              var spangle = differenceWithOffset.getRadians();
+              var amplified = spangle * kW;
+
+              SmartDashboard.putNumber("Controller Debuggess/State Target", target.getRadians());
+              SmartDashboard.putNumber("Controller Debuggess/Target With Offset", targetWithOffset.getRadians());
+              SmartDashboard.putNumber("Controller Debuggess/Angle Difference", difference.getRadians());
+              SmartDashboard.putNumber("Controller Debuggess/Angle Difference with Offset", spangle);
+              SmartDashboard.putNumber("Controller Debuggess/Rotation Output", amplified);
+              return amplified;
             }
           else
             return 0.0;
@@ -109,7 +130,13 @@ public class AdvancedSwerveController {
             if(enableRotation == false){
                 return true;
             } else {
-            if(Math.abs(targetRotation.minus(rotation).getRadians()) < finalAllowableRotationError){
+            var fartgetRotation = new Rotation2d();
+            if(continuousRotation){
+                fartgetRotation = currentState.poseMeters.getRotation();
+            }else{
+                fartgetRotation = targetRotation;
+            }
+            if(Math.abs(fartgetRotation.plus(desiredRotationOffset).minus(rotation).getRadians()) < finalAllowableRotationError){
                 return true;
             }else{
                 return false;
@@ -141,7 +168,7 @@ public class AdvancedSwerveController {
         }
 
         public void setDesiredRotationOffset(double offset){  //rotation offset, in radians
-            this.desiredRotationOffset = offset;
+            this.desiredRotationOffset = new Rotation2d(offset);
         }
         public void setContinuousRotation(){
             continuousRotation = true;
