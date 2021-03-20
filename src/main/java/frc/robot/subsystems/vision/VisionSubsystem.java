@@ -10,15 +10,8 @@ package frc.robot.subsystems.vision;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.VisionComponent;
 
-/**
- * Old vision subsystem component, using network tables and a RasPi
- * @deprecated
- * Deprecated, use {@link #VisionSubsystemNew}
- */
-
-
-@Deprecated
 public class VisionSubsystem extends SubsystemBase {
+
   private VisionComponent vision;
   /**
    * Creates a new VisionSubsystem.
