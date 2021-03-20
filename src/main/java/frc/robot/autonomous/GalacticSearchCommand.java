@@ -2,7 +2,9 @@ package frc.robot.autonomous;
 
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -15,6 +17,7 @@ import frc.robot.subsystems.swerve.odometric.command.AdvancedSwerveController;
 import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_AdvancedFollowTrajectoryCommand;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 
 import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
@@ -40,13 +43,16 @@ public class GalacticSearchCommand extends ParallelCommandGroup { //TODO: Create
         Command intakeCommand = new Autonomous_IndexBallsCommand(indexer, intake, 1, 0.9);
         Command setArm = new InstantCommand(() ->  arm.setAngle(Math.PI/2));
         Command resetArm = new InstantCommand(() -> arm.setAngle(0));
+
         try{
-            AdvancedSwerveController controller = new AdvancedSwerveController(0.1, 0.1, false, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory(paths[arguments.get(path)][arguments.get(color)]).getStates().toArray(Trajectory.State[]::new));
+            Trajectory trajectory = tryGetDeployedTrajectory(paths[arguments.get(path)][arguments.get(color)]);
+            InstantCommand resetPoseCommand = new InstantCommand(() -> swerve.resetPose(new Translation2d(trajectory.getInitialPose().getX(), trajectory.getInitialPose().getY())));
+            AdvancedSwerveController controller = new AdvancedSwerveController(0.1, 0.1, false, 0.1, true, 3, 0, new Rotation2d(),2.4,trajectory.getStates().toArray(Trajectory.State[]::new));
             pathCommand = new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, controller);
+            addCommands(setArm, intakeCommand, resetPoseCommand, pathCommand.andThen(resetArm));
         }
-        catch(NullPointerException exception){
+        catch(IllegalArgumentException exception){
             DriverStation.reportError("Invalid argument given to GalacticSearch command", exception.getStackTrace());
         }
-        addCommands(setArm, intakeCommand, pathCommand.andThen(resetArm));
     }
 }
