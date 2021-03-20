@@ -24,6 +24,7 @@ public class AdvancedSwerveController {
         private double currentAllowableTranslationalError;
         private boolean enableRotation;
         private boolean enableTranslation;
+        private boolean continuousRotation;
         private double kP;
         private double kW;
         private Trajectory.State[] states;
@@ -37,6 +38,7 @@ public class AdvancedSwerveController {
         public AdvancedSwerveController(double initialAllowableTranslationError, double finalAllowableTranslationError, boolean enableRotation, double allowableRotationError, boolean enableTranslation, double kP, double kW, Rotation2d endRotation, double maxVelocity, Trajectory.State... states){
             this.initialAllowableTranslationError = initialAllowableTranslationError;
             this.enableRotation = enableRotation;
+            this.continuousRotation = false;
             this.enableTranslation = enableTranslation;
             this.kP = kP;
             this.kW = kW;
@@ -65,8 +67,11 @@ public class AdvancedSwerveController {
             return valueToReturn;
         }
         public double calculateRotationOutput(Rotation2d rotation){
-          if(enableRotation)
+          if(enableRotation && continuousRotation == false)
             return (desiredRotationOffset + targetRotation.minus(rotation).getRadians()) * kW;
+          else if (enableRotation && continuousRotation == true){
+              return (desiredRotationOffset + currentState.poseMeters.getRotation().getRadians());
+            }
           else
             return 0.0;
         }
@@ -137,6 +142,9 @@ public class AdvancedSwerveController {
 
         public void setDesiredRotationOffset(double offset){  //rotation offset, in radians
             this.desiredRotationOffset = offset;
+        }
+        public void setContinuousRotation(){
+            continuousRotation = true;
         }
     
 }
