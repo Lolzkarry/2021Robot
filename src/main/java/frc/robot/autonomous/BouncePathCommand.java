@@ -4,10 +4,13 @@ package frc.robot.autonomous;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.command.AdvancedSwerveController;
 import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_AdvancedFollowTrajectoryCommand;
+
+import java.time.Instant;
 
 import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 
@@ -15,7 +18,7 @@ public class BouncePathCommand extends SequentialCommandGroup {
     private AdvancedSwerveController controller;
     public BouncePathCommand(OdometricSwerve swerve) {
         addRequirements(swerve);
-        swerve.resetPose(new Translation2d(0.7752273295375641, 2.349173725871407));
+        InstantCommand resetPose = new InstantCommand(() ->  swerve.resetPose(new Translation2d(0.7752273295375641, 2.349173725871407)));
         AdvancedSwerveController controllerPart1 = new AdvancedSwerveController(0.1, 0.1, true, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory("BouncePathCommandComponent1").getStates().toArray(Trajectory.State[]::new));
         AdvancedSwerveController controllerPart2 = new AdvancedSwerveController(0.1, 0.1, true, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory("BouncePathCommandComponent2").getStates().toArray(Trajectory.State[]::new));
         AdvancedSwerveController controllerPart3 = new AdvancedSwerveController(0.1, 0.1, true, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory("BouncePathCommandComponent3").getStates().toArray(Trajectory.State[]::new));
@@ -28,6 +31,6 @@ public class BouncePathCommand extends SequentialCommandGroup {
         controllerPart2.setDesiredRotationOffset(Math.PI);  //commands to reverse rotation direction for the second and fourth parts of the path, to avoid unnecessary rotation
         controllerPart4.setDesiredRotationOffset(Math.PI);
 
-        addCommands(pathPart1, pathPart2, pathPart3, pathPart4);
+        addCommands(resetPose, pathPart1, pathPart2, pathPart3, pathPart4);
     }
 }
