@@ -2,6 +2,7 @@ package frc.robot.autonomous;
 
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
@@ -14,6 +15,7 @@ public class BouncePathCommand extends SequentialCommandGroup {
     private AdvancedSwerveController controller;
     public BouncePathCommand(OdometricSwerve swerve) {
         addRequirements(swerve);
+        swerve.resetPose(new Translation2d(0.7752273295375641, 2.349173725871407));
         AdvancedSwerveController controllerPart1 = new AdvancedSwerveController(0.1, 0.1, true, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory("BouncePathCommandComponent1").getStates().toArray(Trajectory.State[]::new));
         AdvancedSwerveController controllerPart2 = new AdvancedSwerveController(0.1, 0.1, true, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory("BouncePathCommandComponent2").getStates().toArray(Trajectory.State[]::new));
         AdvancedSwerveController controllerPart3 = new AdvancedSwerveController(0.1, 0.1, true, 0.1, true, 3, 0, new Rotation2d(),2.4,tryGetDeployedTrajectory("BouncePathCommandComponent3").getStates().toArray(Trajectory.State[]::new));
