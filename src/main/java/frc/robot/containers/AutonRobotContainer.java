@@ -19,10 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.autonomous.Autonomous_StartShootingCommand;
-import frc.robot.autonomous.Autonomous_StopShootingCommand;
-import frc.robot.autonomous.Autonomous_IndexBallsCommand;
-import frc.robot.autonomous.GalacticSearchCommand;
+import frc.robot.autonomous.*;
 import frc.robot.components.hardware.SparkMaxComponent;
 import frc.robot.components.hardware.TalonSRXComponent;
 import frc.robot.subsystems.Intake.Intake;
@@ -116,8 +113,11 @@ public class AutonRobotContainer implements RobotContainer {
         );
         addAutonCommand("AwayFromCenterBackward", createDefaultControllerBuilder().withEndRotation(new Rotation2d(Math.PI)));
 
-        SmartDashboard.putData("TEST: Galactic Search Path B Red", new GalacticSearchCommand(swerve,intake,indexer,arm,'B','R'));
-        SmartDashboard.putData("TEST: Galactic Search Path Bg Red", new GalacticSearchCommand(swerve,intake,indexer,arm,'B','B'));
+        SmartDashboard.putData("Auton Galactic Search", new GalacticSearchAutonomousCommand(arm, indexer, intake, swerve));
+
+        SmartDashboard.putData("TEST: Galactic Search Path B Red", new GalacticSearchCommand(swerve,intake,indexer,arm,"BRed"));
+        SmartDashboard.putData("TEST: Galactic Search Path Bg Red", new GalacticSearchCommand(swerve,intake,indexer,arm,"BBlue"));
+
 
         addCitrusCompatabileCommand();
         

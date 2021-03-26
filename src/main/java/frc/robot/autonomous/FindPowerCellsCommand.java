@@ -30,9 +30,8 @@ public class FindPowerCellsCommand extends InstantCommand{
     if(!pipeline.findContoursOutput().isEmpty()){
         outputStream1.putFrame(pipeline.findContoursOutput().get(0));
 
-        SmartDashboard.putStringArray("Contour Outputs", pipeline.findContoursOutput().stream().map( wtf -> {
-            return wtf.toString();
-        }).toArray(String[]::new));
+        SmartDashboard.putStringArray("Contour Outputs", pipeline.findContoursOutput().stream().map(Mat::toString).toArray(String[]::new));
+
     }
   }
 }

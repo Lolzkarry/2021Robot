@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 
-public class GalacticSearchCommand extends ParallelCommandGroup { //TODO: Create another command to identify which path to take
+public class GalacticSearchCommand extends ParallelCommandGroup {
     private OdometricSwerve_AdvancedFollowTrajectoryCommand pathCommand;
     private HashMap<String, String> paths;
     public GalacticSearchCommand(OdometricSwerve swerve, Intake intake, Indexer indexer, Arm arm, String path) { //Command to run galactic search path, path takes either a or b as argument and color takes r or b
