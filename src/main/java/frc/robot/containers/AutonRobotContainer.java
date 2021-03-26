@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autonomous.Autonomous_StartShootingCommand;
 import frc.robot.autonomous.Autonomous_StopShootingCommand;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
+import frc.robot.autonomous.GalacticSearchCommand;
 import frc.robot.components.hardware.SparkMaxComponent;
 import frc.robot.components.hardware.TalonSRXComponent;
 import frc.robot.subsystems.Intake.Intake;
@@ -114,6 +115,9 @@ public class AutonRobotContainer implements RobotContainer {
         createDefaultControllerBuilder().withEndRotation(new Rotation2d(Math.PI))
         );
         addAutonCommand("AwayFromCenterBackward", createDefaultControllerBuilder().withEndRotation(new Rotation2d(Math.PI)));
+
+        SmartDashboard.putData("TEST: Galactic Search Path B Red", new GalacticSearchCommand(swerve,intake,indexer,arm,'B','R'));
+        SmartDashboard.putData("TEST: Galactic Search Path Bg Red", new GalacticSearchCommand(swerve,intake,indexer,arm,'B','B'));
 
         addCitrusCompatabileCommand();
         
