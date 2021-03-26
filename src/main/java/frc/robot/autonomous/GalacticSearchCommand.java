@@ -40,7 +40,10 @@ public class GalacticSearchCommand extends ParallelCommandGroup { //TODO: Create
 
         //gets trajectory to run
         String trajectoryStr = paths.get(path);
-        assert trajectoryStr != null : "invalid path given to GalacticSearchCommand"; //check if path string maps to a path
+        if (trajectoryStr == null) { //check if path string maps to a path
+            DriverStation.reportError("Invalid path string given to galactic search command", true);
+            throw new RuntimeException("Invalid path string given to galactic search command");
+        }
         Trajectory trajectory = tryGetDeployedTrajectory(trajectoryStr);
 
         //aligns robot to path and constructs path command
