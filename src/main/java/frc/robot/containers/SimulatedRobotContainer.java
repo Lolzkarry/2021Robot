@@ -41,6 +41,8 @@ public class SimulatedRobotContainer implements IRobotContainer {
         SmartDashboard.putData("Reset Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d()),swerve));
         SmartDashboard.putData("Swerve Transform", new OdometricSwerveDashboardUtility(swerve));
         SmartDashboard.putData("Current State Transform", new AdvancedSwerveControllerDashboardUtility(ac));
+
+        configureSlalom();
     }
 
     private double withDeadzone(double value, double deadzone) {
@@ -49,5 +51,11 @@ public class SimulatedRobotContainer implements IRobotContainer {
         } else {
             return value;
         }
+    }
+
+    private void configureSlalom(){
+        var traj = tryGetDeployedTrajectory("SlalomTest");
+        var ac = createDefaultControllerBuilder().withTrajectory(traj).buildController();
+        SmartDashboard.putData("Slalom Path", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
     }
 }

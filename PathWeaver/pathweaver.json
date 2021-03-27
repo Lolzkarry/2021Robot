@@ -1,9 +1,9 @@
 {
-  "lengthUnit": "Meter",
+  "lengthUnit": "Foot",
   "exportUnit": "Always Meters",
   "maxVelocity": 10.0,
   "maxAcceleration": 10.0,
-  "wheelBase": 1.0,
-  "gameName": "Bounce Path",
+  "wheelBase": 3.0,
+  "gameName": "Infinite Recharge at Home - Empty",
   "outputDir": ""
 }
