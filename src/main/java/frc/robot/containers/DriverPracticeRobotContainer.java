@@ -25,6 +25,7 @@ import frc.robot.autonomous.Autonomous_ForceIndexBallsCommand;
 import frc.robot.autonomous.GenericAutonUtilities;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
 import frc.robot.autonomous.Autonomous_SingleSensorIndexBallsCommand;
+import frc.robot.autonomous.FindPowerCellsCommand;
 import frc.robot.autonomous.VisionDistanceCalculator;
 import frc.robot.autonomous.pshoot.VisionPreciseShootingOI;
 import frc.robot.components.hardware.CameraVisionComponent;
@@ -123,6 +124,8 @@ public class DriverPracticeRobotContainer implements RobotContainer {
         configureAutonomous();
 
         backupIndexerButton.whileHeld(new Autonomous_IndexBallsCommand(indexer, intake, 1, 0));
+
+        configureSearch();
     }
 
     private double getTurretRadianOffset() {
@@ -548,5 +551,9 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
     private void aimAtInnerPort(){
         turretRadianOffset = visionDistanceCalculator.getDesiredTurretOffset(swerve.getCurrentPose().getTranslation(), visionTargetTranslation, innerTargetTranslation);
+    }
+
+    private void configureSearch(){
+        SmartDashboard.putData("Find Power Cells", new FindPowerCellsCommand());
     }
 }

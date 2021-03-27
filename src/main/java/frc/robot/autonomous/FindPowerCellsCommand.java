@@ -11,13 +11,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.vision.RandomGripPipeline;
 
 public class FindPowerCellsCommand extends InstantCommand{
+  int width = 320, height = 240;
     UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
     CvSink cvSink = CameraServer.getInstance().getVideo(camera);
-    CvSource outputStream1 = CameraServer.getInstance().putVideo("Pipeline Output", -1, -1), outputStream2 = CameraServer.getInstance().putVideo("Captured Frame", -1, -1);
+    CvSource outputStream1 = CameraServer.getInstance().putVideo("Pipeline Output", width, height), outputStream2 = CameraServer.getInstance().putVideo("Captured Frame", width, height);
     
   Mat source = new Mat();
 
   RandomGripPipeline pipeline = new RandomGripPipeline();
+
+  public FindPowerCellsCommand(){
+    camera.setResolution(width, height);
+  }
 
   @Override
   public void execute() {
@@ -28,7 +33,7 @@ public class FindPowerCellsCommand extends InstantCommand{
         System.err.println(cvSink.getError());
     }
     if(!pipeline.findContoursOutput().isEmpty()){
-        outputStream1.putFrame(pipeline.findContoursOutput().get(0));
+        outputStream1.putFrame(pipeline.hsvThresholdOutput());
 
         SmartDashboard.putStringArray("Contour Outputs", pipeline.findContoursOutput().stream().map(Mat::toString).toArray(String[]::new));
 
