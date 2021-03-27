@@ -26,8 +26,9 @@ public class GalacticSearchCommand extends ParallelCommandGroup { //TODO: Create
     private OdometricSwerve_AdvancedFollowTrajectoryCommand pathCommand;
     private HashMap<String, String> paths;
     public GalacticSearchCommand(OdometricSwerve swerve, Intake intake, Indexer indexer, Arm arm, String path) { //Command to run galactic search path, path takes either a or b as argument and color takes r or b
-        addRequirements(swerve, intake, indexer, arm);
+        //addRequirements(swerve, intake, indexer, arm);
 
+        paths = new HashMap<>();
         paths.put("ARed", "GSearchARed");//TODO: add the actual filenames
         paths.put("ABlue", "GSearchABlue");
         paths.put("BRed", "GSearchBRed");
@@ -53,7 +54,7 @@ public class GalacticSearchCommand extends ParallelCommandGroup { //TODO: Create
 
 
 
-        addCommands(setArm, intakeCommand, resetPoseCommand, pathCommand.andThen(resetArm));
+        addCommands(setArm, intakeCommand, resetPoseCommand.andThen(pathCommand));
         
     }
 }

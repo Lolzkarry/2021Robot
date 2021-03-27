@@ -116,8 +116,8 @@ public class AutonRobotContainer implements RobotContainer {
         );
         addAutonCommand("AwayFromCenterBackward", createDefaultControllerBuilder().withEndRotation(new Rotation2d(Math.PI)));
 
-        SmartDashboard.putData("TEST: Galactic Search Path B Red", new GalacticSearchCommand(swerve,intake,indexer,arm,'B','R'));
-        SmartDashboard.putData("TEST: Galactic Search Path Bg Red", new GalacticSearchCommand(swerve,intake,indexer,arm,'B','B'));
+        SmartDashboard.putData("TEST: Galactic Search Path B Red", new GalacticSearchCommand(swerve,intake,indexer,arm,"BRed"));
+        SmartDashboard.putData("TEST: Galactic Search Path Bg Red", new GalacticSearchCommand(swerve,intake,indexer,arm,"BBlue"));
 
         addCitrusCompatabileCommand();
         
