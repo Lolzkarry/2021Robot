@@ -12,6 +12,7 @@ import static frc.robot.utility.ExtendedMath.withContinuousDeadzone;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.autonomous.BouncePathCommand;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerveDashboardUtility;
 import frc.robot.subsystems.swerve.odometric.command.AdvancedSwerveControllerDashboardUtility;
@@ -33,9 +34,10 @@ public class SimulatedRobotContainer implements IRobotContainer {
                         -withDeadzone(controller.getY(Hand.kLeft), 0.2) * 10,
                         withDeadzone(controller.getX(Hand.kRight), 0.2) * 3), swerve));
 
-        var ac = createDefaultControllerBuilder().withTrajectory(tryGetDeployedTrajectory("BarrelRacing"))
+        var ac = createDefaultControllerBuilder().withTrajectory(tryGetDeployedTrajectory("ExampleTrajectory"))
                 .buildController();
         SmartDashboard.putData("Follow Trajectory", new InstantCommand(() -> swerve.resetPose(new Translation2d(0.762, 12.714)), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+        SmartDashboard.putData("Bounce Path", new BouncePathCommand(swerve));
         SmartDashboard.putData("Reset Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d()),swerve));
         SmartDashboard.putData("Swerve Transform", new OdometricSwerveDashboardUtility(swerve));
         SmartDashboard.putData("Current State Transform", new AdvancedSwerveControllerDashboardUtility(ac));

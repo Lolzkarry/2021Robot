@@ -37,6 +37,7 @@ public class AdvancedSwerveController {
         private Rotation2d desiredRotationOffset = new Rotation2d();
         private Rotation2d targetRotation;
         private double maxVelocity;
+        private int samplingRate = 1;
         public AdvancedSwerveController(double initialAllowableTranslationError, double finalAllowableTranslationError, boolean enableRotation, double allowableRotationError, boolean enableTranslation, double kP, double kW, Rotation2d endRotation, double maxVelocity, Trajectory.State... states){
             this.initialAllowableTranslationError = initialAllowableTranslationError;
             this.enableRotation = enableRotation;
@@ -64,8 +65,8 @@ public class AdvancedSwerveController {
             else
                 valueToReturn = 0.0;
             
-            if(atCurrentStateTranslation(position) && currentStateIndex + 1 < states.length){
-                    currentStateIndex++;
+            if(atCurrentStateTranslation(position) && currentStateIndex + samplingRate < states.length){
+                    currentStateIndex += samplingRate;
                     initializeCurrentState(position);
                  }
 
@@ -120,7 +121,7 @@ public class AdvancedSwerveController {
             }
         }
         public boolean atFinalStateTranslation(Translation2d currentTranslation){
-            if(currentStateIndex + 1 >= states.length){
+            if(currentStateIndex + samplingRate >= states.length){
                 return atCurrentStateTranslation(currentTranslation);
             }else{
                 return false;
@@ -172,6 +173,12 @@ public class AdvancedSwerveController {
         }
         public void setContinuousRotation(){
             continuousRotation = true;
+        }
+        public int getSamplingRate() {
+            return samplingRate;
+        }
+        public void setSamplingRate(int samplingRate) {
+            this.samplingRate = samplingRate;
         }
     
 }
