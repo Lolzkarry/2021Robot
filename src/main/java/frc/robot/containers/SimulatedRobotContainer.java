@@ -54,8 +54,9 @@ public class SimulatedRobotContainer implements IRobotContainer {
     }
 
     private void configureSlalom(){
-        var traj = tryGetDeployedTrajectory("SlalomTest");
+        var traj = tryGetDeployedTrajectory("RobertSlalom");
         var ac = createDefaultControllerBuilder().withTrajectory(traj).buildController();
+        ac.setContinuousRotation();
         SmartDashboard.putData("Slalom Path", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
     }
 }
