@@ -555,7 +555,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             swerve,
             createDefaultControllerBuilder()
             .withEndRotation(new Rotation2d(0.0))
-            .withTrajectory(tryGetDeployedTrajector("BarrelRacing"))
+            .withTrajectory(tryGetDeployedTrajectory("BarrelRacing"))
             .withMaxVelocity(2.0)
             .buildController());
         )
