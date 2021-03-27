@@ -29,8 +29,8 @@ import frc.robot.autonomous.VisionDistanceCalculator;
 import frc.robot.autonomous.pshoot.VisionPreciseShootingOI;
 import frc.robot.components.hardware.CameraVisionComponent;
 import frc.robot.components.hardware.LimelightVisionComponent;
-import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Intake.factory.HardwareIntakeFactory;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.factory.HardwareIntakeFactory;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.factory.HardwareArmFactory;
 import frc.robot.subsystems.climber.Climber;
@@ -548,5 +548,16 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
     private void aimAtInnerPort(){
         turretRadianOffset = visionDistanceCalculator.getDesiredTurretOffset(swerve.getCurrentPose().getTranslation(), visionTargetTranslation, innerTargetTranslation);
+    }
+    
+    private CommandBase createAutonavBarrelRacingCommand(){
+        return new OdometricSwerve_AdvancedFollowTrajectoryCommand(
+            swerve,
+            createDefaultControllerBuilder()
+            .withEndRotation(new Rotation2d(0.0))
+            .withTrajectory(tryGetDeployedTrajectory("BarrelRacing"))
+            .withMaxVelocity(2.0)
+            .buildController());
+        )
     }
 }

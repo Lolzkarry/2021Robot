@@ -1,9 +1,9 @@
-package frc.robot.subsystems.Intake.factory;
+package frc.robot.subsystems.intake.factory;
 
 import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.components.hardware.SparkMaxComponent;
-import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Intake.IntakeMap;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeMap;
 
 public class HardwareIntakeFactory implements IntakeFactory {
     /**
