@@ -32,6 +32,7 @@ public class RandomGripPipeline implements VisionPipeline {
 	private Mat hsvThresholdOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
+	private ArrayList<Rect> rects = new ArrayList<>();
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -50,7 +51,7 @@ public class RandomGripPipeline implements VisionPipeline {
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
 		double[] hsvThresholdHue = {22.66187050359712, 43.31058020477815};
-		double[] hsvThresholdSaturation = {33.25089928057556, 255.0};
+		double[] hsvThresholdSaturation = {15, 255.0};
 		double[] hsvThresholdValue = {80.26079136690647, 255.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
@@ -61,7 +62,7 @@ public class RandomGripPipeline implements VisionPipeline {
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 30.0;
+		double filterContoursMinArea = 15.0;
 		double filterContoursMinPerimeter = 0.0;
 		double filterContoursMinWidth = 0;
 		double filterContoursMaxWidth = 1000;
@@ -70,14 +71,20 @@ public class RandomGripPipeline implements VisionPipeline {
 		double[] filterContoursSolidity = {0, 100.0};
 		double filterContoursMaxVertices = 1000000;
 		double filterContoursMinVertices = 0;
-		double filterContoursMinRatio = 0;
-		double filterContoursMaxRatio = 1000;
+		double filterContoursMinRatio = 0.8;
+		double filterContoursMaxRatio = 1.6;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
-		filterContoursContours.get(0);
+		rects = new ArrayList<>();
+		for(var contour : filterContoursOutput){
+			rects.add(Imgproc.boundingRect(contour));
+		}
 
 	}
 
+	public ArrayList<Rect> getRects(){
+		return rects;
+	}
 	/**
 	 * This method is a generated getter for the output of a Blur.
 	 * @return Mat output from Blur.
