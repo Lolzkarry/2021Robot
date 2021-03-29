@@ -173,8 +173,25 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
             new BouncePathCommand(swerve)
         );
         SmartDashboard.putData("Selected Auto", autonomousChooser);
+        configureSlalomRobert();
+        configureSlalomMartin();
+        
     }
 
+    private void configureSlalomRobert(){
+        var traj = tryGetDeployedTrajectory("RobertSlalom2");
+        var ac = createDefaultControllerBuilder().with_kP(2).withTrajectory(traj).withMaxVelocity(2.5).buildController();
+        //ac.setContinuousRotation();
+        ac.setSamplingRate(4);
+        SmartDashboard.putData("Slalom Path Robert", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+    }
+    private void configureSlalomMartin(){
+        var traj = tryGetDeployedTrajectory("SlalomTest");
+        var ac = createDefaultControllerBuilder().withTrajectory(traj).buildController();
+        ac.setContinuousRotation();
+        ac.setSamplingRate(2);
+        SmartDashboard.putData("Slalom Path Martin", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+    }
     private SequentialCommandGroup createTrenchCitrusCompatibleBCommand() {
         return createTrenchCitrusPart1Command()
             .andThen(
