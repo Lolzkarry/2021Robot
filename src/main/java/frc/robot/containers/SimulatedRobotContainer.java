@@ -42,7 +42,8 @@ public class SimulatedRobotContainer implements IRobotContainer {
         SmartDashboard.putData("Swerve Transform", new OdometricSwerveDashboardUtility(swerve));
         SmartDashboard.putData("Current State Transform", new AdvancedSwerveControllerDashboardUtility(ac));
 
-        configureSlalom();
+        configureSlalomRobert();
+        configureSlalomMartin();
     }
 
     private double withDeadzone(double value, double deadzone) {
@@ -53,10 +54,17 @@ public class SimulatedRobotContainer implements IRobotContainer {
         }
     }
 
-    private void configureSlalom(){
+    private void configureSlalomRobert(){
         var traj = tryGetDeployedTrajectory("RobertSlalom");
         var ac = createDefaultControllerBuilder().withTrajectory(traj).buildController();
         ac.setContinuousRotation();
-        SmartDashboard.putData("Slalom Path", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+        SmartDashboard.putData("Slalom Path Robert", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+    }
+    private void configureSlalomMartin(){
+        var traj = tryGetDeployedTrajectory("SlalomTest");
+        var ac = createDefaultControllerBuilder().withTrajectory(traj).buildController();
+        ac.setContinuousRotation();
+        ac.setSamplingRate(2);
+        SmartDashboard.putData("Slalom Path Martin", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
     }
 }
