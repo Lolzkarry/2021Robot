@@ -2,15 +2,14 @@ package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.autonomous.pshoot.SmartDashboardPreciseShootingOI;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.vision.CameraVisionSubsystem;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
+import org.opencv.core.Rect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,14 +26,18 @@ import java.util.HashMap;
  *
  * Also all ints will be Integer objects because they play nicer with HashMaps
  */
-public class GalacticSearchAutonomousCommand extends InstantCommand {
+public class GalacticSearchAutonomousCommand extends SequentialCommandGroup {
     private final Arm arm;
     private final Indexer indexer;
     private final Intake intake;
     private final OdometricSwerve swerve;
-    HashMap<String, Integer[][]> locations; //pre-calibrated pixel locations of the cells within each configuration
-    Integer[][] cells; //cell pixel locations gotten from camera
-    ArrayList<String> paths; //arraylist which maps paths to numbers, ARed is 0, ABlue is 1, etc.
+    private HashMap<String, Integer[][]> locations; //pre-calibrated pixel locations of the cells within each configuration
+    private Integer[][] cells; //cell pixel locations gotten from camera
+    private ArrayList<String> paths; //arraylist which maps paths to numbers, ARed is 0, ABlue is 1, etc.
+    private PowerCellFinder powerCellFinder;
+    private ArrayList<Rect> points;
+    private boolean error = false;
+
 
     public GalacticSearchAutonomousCommand(Arm arm, Indexer indexer, Intake intake, OdometricSwerve swerve) {
         this.arm = arm;
@@ -76,13 +79,30 @@ public class GalacticSearchAutonomousCommand extends InstantCommand {
 
     @Override
     public void execute() {
-        new FindPowerCellsCommand();
-        String[] points = SmartDashboard.getStringArray("Contour Outputs", null);
-        //TODO: set cells[] to whatever the GetPowerCellsCommand is outputting, and raise an error if the length isnt 3
+        new PowerCellFinder();
+        points = powerCellFinder.findPowerCells();
+
+
+        //defines some invalid stuff
         if (points == null) {
             DriverStation.reportError("Outputs of FindPowerCellsCommand not found in Shuffleboard", Thread.currentThread().getStackTrace());
-            throw new RuntimeException("Outputs of FindPowerCellsCommand not found in Shuffleboard");
+            error = true;
         }
+        if (cells.length != 3){
+            DriverStation.reportError("Robot is not finding 3 cells", false);
+            error = true;
+        }
+
+        for (int coord = 0; coord < points.size(); coord++){ //sets cells to the x,y pairs seen in camera
+            cells[coord][0] = points.get(coord).x;
+            cells[coord][1] = points.get(coord).y;
+        }
+
+
+
+
+
+
 
         ArrayList<Integer> tDists = new ArrayList<>(); //total distances of each path
         tDists.add(0); tDists.add(0); tDists.add(0); tDists.add(0); //initialize four values to 0
@@ -92,8 +112,8 @@ public class GalacticSearchAutonomousCommand extends InstantCommand {
             for (int cell = 0; cell < 3; cell++){ //for each cell detected by the camera, find the closest cell in the path and strike it from the list
                 Integer[] cellCoord = cells[cell]; // coordinate of the current cell
                 ArrayList<Integer> distances = new ArrayList<Integer>();
-                for (int pathCoordIndex = 0; pathCoordIndex < pathTemp.size(); pathCoordIndex++){ //for each coordinate in the path not assigned to a cell
-                    Integer currentDistance = findSquareDist(cellCoord, pathTemp.get(pathCoordIndex));
+                for (Integer[] coordinates : pathTemp) { //for each coordinate in the path not assigned to a cell
+                    Integer currentDistance = findSquareDist(cellCoord, coordinates);
                     distances.add(currentDistance);
                 }
                 tDists.set(path, tDists.get(path) + Collections.min(distances)); //adds distance for ball to total distance for the path
@@ -102,7 +122,12 @@ public class GalacticSearchAutonomousCommand extends InstantCommand {
         }
 
         String pathToRun = paths.get(tDists.indexOf(Collections.min(tDists))); //gets the path name of the path with smallest total distance from cells to coordinates
-        new GalacticSearchCommand(swerve, intake, indexer, arm, pathToRun);
+        Command GSearchCommand = new GalacticSearchCommand(swerve, intake, indexer, arm, pathToRun);
+
+        if (!error) {
+            addCommands(GSearchCommand);
+        }
+        addCommands();
 
     }
 
