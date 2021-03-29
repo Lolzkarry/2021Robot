@@ -27,6 +27,10 @@ public class BouncePathCommand extends SequentialCommandGroup {
         controllerPart3.setContinuousRotation();
         AdvancedSwerveController controllerPart4 = new AdvancedSwerveController(0.1, 0.1, true, 0.15, true, 3, 4, new Rotation2d(),2.4,tryGetDeployedTrajectory("BouncePathComponent4").getStates().toArray(Trajectory.State[]::new));
         controllerPart4.setContinuousRotation();
+        controllerPart1.setSamplingRate(2);
+        controllerPart2.setSamplingRate(2);
+        controllerPart3.setSamplingRate(2);
+        controllerPart4.setSamplingRate(2);
 
         int samplingRate = 2;
         controllerPart1.setSamplingRate(samplingRate);

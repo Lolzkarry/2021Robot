@@ -73,9 +73,9 @@ public class AdvancedSwerveController {
             return valueToReturn;
         }
         public double calculateRotationOutput(Rotation2d rotation){
-          if(enableRotation && continuousRotation == false)
+          if(enableRotation && !continuousRotation)
             return (desiredRotationOffset.plus(targetRotation).minus(rotation).getRadians()) * kW;
-          else if (enableRotation && continuousRotation == true){
+          else if (enableRotation && continuousRotation){
 
             var target = currentState.poseMeters.getRotation();
             var targetWithOffset = target.plus(desiredRotationOffset);

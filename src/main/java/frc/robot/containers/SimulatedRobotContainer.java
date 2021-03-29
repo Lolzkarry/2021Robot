@@ -41,6 +41,7 @@ public class SimulatedRobotContainer implements IRobotContainer {
         SmartDashboard.putData("Reset Pose", new InstantCommand(() -> swerve.resetPose(new Pose2d()),swerve));
         SmartDashboard.putData("Swerve Transform", new OdometricSwerveDashboardUtility(swerve));
         SmartDashboard.putData("Current State Transform", new AdvancedSwerveControllerDashboardUtility(ac));
+        SmartDashboard.putData("bounce path", new BouncePathCommand(swerve));
     }
 
     private double withDeadzone(double value, double deadzone) {
