@@ -183,6 +183,7 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
         var ac = createDefaultControllerBuilder().with_kP(2).withTrajectory(traj).withMaxVelocity(2.5).buildController();
         //ac.setContinuousRotation();
         ac.setSamplingRate(4);
+        
         SmartDashboard.putData("Slalom Path Robert", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
     }
     private void configureSlalomMartin(){
