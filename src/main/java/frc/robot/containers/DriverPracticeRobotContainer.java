@@ -168,6 +168,11 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             createExampleAutonomousCommand());
 
         SmartDashboard.putData("Selected Auto", autonomousChooser);
+
+        autonomousChooser.addOption(
+            "Barrel Racing",
+            createAutonavBarrelRacingCommand());
+    
     }
 
     private SequentialCommandGroup createTrenchCitrusCompatibleBCommand() {
@@ -549,15 +554,15 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     private void aimAtInnerPort(){
         turretRadianOffset = visionDistanceCalculator.getDesiredTurretOffset(swerve.getCurrentPose().getTranslation(), visionTargetTranslation, innerTargetTranslation);
     }
-    
+
     private CommandBase createAutonavBarrelRacingCommand(){
-        return new OdometricSwerve_AdvancedFollowTrajectoryCommand(
+        var traj2 = tryGetDeployedTrajectory("BarrelRacing");
+        new InstantCommand(() -> swerve.resetPose(traj2.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(
             swerve,
             createDefaultControllerBuilder()
             .withEndRotation(new Rotation2d(0.0))
-            .withTrajectory(tryGetDeployedTrajectory("BarrelRacing"))
+            .withTrajectory(tryGetDeployedTrajector("BarrelRacing"))
             .withMaxVelocity(2.0)
-            .buildController());
-        )
+            .buildController()));
     }
 }
