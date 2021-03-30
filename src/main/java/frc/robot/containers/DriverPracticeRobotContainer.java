@@ -556,13 +556,13 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
 
     private CommandBase createAutonavBarrelRacingCommand(){
-        return new OdometricSwerve_AdvancedFollowTrajectoryCommand(
+        var traj2 = tryGetDeployedTrajectory("BarrelRacing");
+        new InstantCommand(() -> swerve.resetPose(traj2.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(
             swerve,
             createDefaultControllerBuilder()
             .withEndRotation(new Rotation2d(0.0))
             .withTrajectory(tryGetDeployedTrajector("BarrelRacing"))
             .withMaxVelocity(2.0)
-            .buildController());
-        )
+            .buildController()));
     }
 }
