@@ -1,7 +1,7 @@
 {
   "lengthUnit": "Foot",
   "exportUnit": "Always Meters",
-  "maxVelocity": 10.0,
+  "maxVelocity": 9.0,
   "maxAcceleration": 1.0,
   "wheelBase": 3.0,
   "gameName": "Infinite Recharge at Home - Empty",

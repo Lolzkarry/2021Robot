@@ -168,23 +168,23 @@ public class DriverPracticeRobotContainer implements IRobotContainer {
         autonomousChooser.addOption(
             "Example Autonomous", 
             createExampleAutonomousCommand());
+            configureSlalomRobert();
         autonomousChooser.addOption(
             "Bounce Path",
             new BouncePathCommand(swerve)
         );
         SmartDashboard.putData("Selected Auto", autonomousChooser);
-        configureSlalomRobert();
         configureSlalomMartin();
         
     }
 
     private void configureSlalomRobert(){
         var traj = tryGetDeployedTrajectory("RobertSlalom2");
-        var ac = createDefaultControllerBuilder().with_kP(2).withTrajectory(traj).withMaxVelocity(2.5).buildController();
+        var ac = createDefaultControllerBuilder().with_kP(0.5).withTrajectory(traj).withMaxVelocity(2.5).buildController();
         //ac.setContinuousRotation();
         ac.setSamplingRate(4);
         
-        SmartDashboard.putData("Slalom Path Robert", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+        autonomousChooser.addOption("Slalom Path Robert", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
     }
     private void configureSlalomMartin(){
         var traj = tryGetDeployedTrajectory("SlalomTest");
