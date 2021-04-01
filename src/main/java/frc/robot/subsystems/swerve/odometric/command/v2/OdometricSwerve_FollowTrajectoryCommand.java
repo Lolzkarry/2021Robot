@@ -72,7 +72,7 @@ public class OdometricSwerve_FollowTrajectoryCommand extends CommandBase {
   public void setController(HolonomicDriveController controller) {
     this.controller = controller;
   }
-  public static HolonomicDriveController createController(double kPx, double kPy, double kPw, double maxRotationalSpeed, double maxRotationlAcceleration){
+  public static HolonomicDriveController createBasicController(double kPx, double kPy, double kPw, double maxRotationalSpeed, double maxRotationlAcceleration){
     return new HolonomicDriveController(new PIDController(kPx, 0, 0), new PIDController(kPy, 0, 0), new ProfiledPIDController(kPw, 0, 0, new Constraints(maxRotationalSpeed, maxRotationlAcceleration) ));
   }
 }
