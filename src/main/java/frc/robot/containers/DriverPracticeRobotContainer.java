@@ -19,11 +19,13 @@ import edu.wpi.first.wpilibj.geometry.*;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.LayoutType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autonomous.pshoot.Autonomous_PreciseShootingCommand;
+import frc.robot.autonomous.pshoot.PreciserVisionPreciseShootingOI;
 import frc.robot.autonomous.Autonomous_ForceIndexBallsCommand;
 import frc.robot.autonomous.GenericAutonUtilities;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
@@ -104,7 +106,12 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     visionTargetTranslation = new Translation2d(15.98, -5.85), 
     innerTargetTranslation = new Translation2d(15.98 + 0.74,-5.85);
 
+    ShuffleboardTab driverTab;
+
     public DriverPracticeRobotContainer() {
+
+        driverTab = Shuffleboard.getTab("Driver Controls");
+
 
         configureBasicOverrides();
 
@@ -378,7 +385,9 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
     private void configureShooter() {
         visionDistanceCalculator = GenericAutonUtilities.makeEntropyVisionDistanceCalculator(limelight);
-        visionPreciseShootingOI = new VisionPreciseShootingOI(visionDistanceCalculator);
+        visionPreciseShootingOI = new PreciserVisionPreciseShootingOI(visionDistanceCalculator, () -> -controlStick.getRawAxis(3)/2+0.5);
+
+        driverTab.add("Shooter OI", (Sendable)visionPreciseShootingOI);
         //var shootCommand = new Autonomous_PreciseShootingCommand(shooter, indexer, -500,-500,1,500);
         var shootCommand = new Autonomous_PreciseShootingCommand(shooter, indexer, visionPreciseShootingOI);
         shootButton.whileHeld(shootCommand);
@@ -426,7 +435,6 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
 
     private void configureSwerve() {
-        var driverTab = Shuffleboard.getTab("Driver Controls");
         var xSettings = driverTab.getLayout("X Settings",BuiltInLayouts.kList);
         var ySettings = driverTab.getLayout("Y Settings",BuiltInLayouts.kList);
         var zSettings = driverTab.getLayout("Z Settings",BuiltInLayouts.kList);
