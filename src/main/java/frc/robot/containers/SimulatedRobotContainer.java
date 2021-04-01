@@ -6,13 +6,11 @@ package frc.robot.containers;
 
 import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 import static frc.robot.autonomous.GenericAutonUtilities.createDefaultControllerBuilder;
-import static frc.robot.utility.ExtendedMath.withHardDeadzone;
-import static frc.robot.utility.ExtendedMath.withContinuousDeadzone;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.autonomous.BouncePathCommand;
+import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerveDashboardUtility;
 import frc.robot.subsystems.swerve.odometric.command.AdvancedSwerveControllerDashboardUtility;
@@ -23,16 +21,22 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 /** Add your docs here. */
 public class SimulatedRobotContainer implements IRobotContainer {
     XboxController controller = new XboxController(0);
     OdometricSwerve swerve = new OdometricSimulatedSwerveFactory().makeSwerve();
+    boolean useXboxController = false;
 
     public SimulatedRobotContainer() {
+        if(useXboxController){
         swerve.setDefaultCommand(
                 new RunCommand(() -> swerve.moveRobotCentric(withDeadzone(controller.getX(Hand.kLeft), 0.2) * 10,
                         -withDeadzone(controller.getY(Hand.kLeft), 0.2) * 10,
                         withDeadzone(controller.getX(Hand.kRight), 0.2) * 3), swerve));
+        }else{
+            swerve.setDefaultCommand(new RunCommand(() -> swerve.moveRobotCentric(0,0,0), swerve));
+        }
 
         var ac = createDefaultControllerBuilder().withTrajectory(tryGetDeployedTrajectory("ExampleTrajectory"))
                 .buildController();
@@ -44,6 +48,7 @@ public class SimulatedRobotContainer implements IRobotContainer {
 
         configureSlalomRobert();
         configureSlalomMartin();
+        ExtendedTrajectoryUtilities.addTrajectoryWithShuffleboard(swerve, "V2 Path Following Tests", "RobertSlalom2");
     }
 
     private double withDeadzone(double value, double deadzone) {
@@ -67,4 +72,5 @@ public class SimulatedRobotContainer implements IRobotContainer {
         ac.setSamplingRate(2);
         SmartDashboard.putData("Slalom Path Martin", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
     }
+
 }
