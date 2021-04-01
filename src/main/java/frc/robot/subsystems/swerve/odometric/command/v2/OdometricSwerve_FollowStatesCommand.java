@@ -29,10 +29,8 @@ public class OdometricSwerve_FollowStatesCommand extends OdometricSwerve_FollowT
   }
   @Override
   public void execute() {
-    if(internalTime > 0.0){
       var distance = ExtendedMath.distance(swerve.getCurrentPose().getTranslation(), currentTranslation);
       internalTime += (timeTransformer != null)? timeTransformer.apply(distance) : 1/distance;
-    }
     applyState(trajectory.sample(internalTime));
   }
   @Override
