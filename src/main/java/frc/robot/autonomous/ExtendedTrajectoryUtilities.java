@@ -9,10 +9,14 @@ package frc.robot.autonomous;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 
 /**
@@ -34,5 +38,8 @@ public class ExtendedTrajectoryUtilities {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryName, ex.getStackTrace());
             return new Trajectory(null);
         }
+    }
+    public static Trajectory regenerateTrajectory(Trajectory trajectory, TrajectoryConfig config){
+        return TrajectoryGenerator.generateTrajectory(Arrays.asList(trajectory.getStates().stream().map(s -> s.poseMeters).toArray(Pose2d[]::new)), config);
     }
 }
