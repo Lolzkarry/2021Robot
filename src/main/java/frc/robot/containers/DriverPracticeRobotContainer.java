@@ -562,7 +562,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             createDefaultControllerBuilder()
             .withEndRotation(new Rotation2d(0.0))
             .withTrajectory(tryGetDeployedTrajector("BarrelRacing"))
-            .withMaxVelocity(2.0)
+            .withMaxVelocity(0.5)
             .buildController()));
     }
 }
