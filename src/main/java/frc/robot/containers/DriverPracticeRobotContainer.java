@@ -26,6 +26,7 @@ import frc.robot.autonomous.GenericAutonUtilities;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
 import frc.robot.autonomous.Autonomous_SingleSensorIndexBallsCommand;
 import frc.robot.autonomous.BouncePathCommand;
+import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.autonomous.VisionDistanceCalculator;
 import frc.robot.autonomous.pshoot.VisionPreciseShootingOI;
 import frc.robot.components.hardware.CameraVisionComponent;
@@ -172,11 +173,17 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             "Bounce Path",
             new BouncePathCommand(swerve)
         );
+        autonomousChooser.addOption(
+            "Advanced Barrel Racing", 
+       ExtendedTrajectoryUtilities.addTrajectoryWithShuffleboard(swerve, "Barrel Racing V2", "BarrelRacing")
+            
+            );
         SmartDashboard.putData("Selected Auto", autonomousChooser);
 
         autonomousChooser.addOption(
             "Barrel Racing",
             createAutonavBarrelRacingCommand());
+
     
     }
 
