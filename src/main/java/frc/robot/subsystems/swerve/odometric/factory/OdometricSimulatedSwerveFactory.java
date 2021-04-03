@@ -22,7 +22,7 @@ import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_MoveToPoseC
  * Add your docs here.
  */
 public class OdometricSimulatedSwerveFactory {
-    private final double MAX_SURFACE_SPEED = 2.5; // m/s
+    private final double MAX_SURFACE_SPEED = Double.MAX_VALUE; // m/s
     private final double WHEEL_DIAMETER = 0.2; // m
     public OdometricSwerve makeSwerve(){
         return new OdometricSwerve(
