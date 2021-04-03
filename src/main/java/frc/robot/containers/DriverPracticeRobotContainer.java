@@ -584,7 +584,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
         .withMaxVelocity(2.5)
         .buildController();
 
-        blah2.setSamplingRate(4);
+        blah2.setSamplingRate(6);
         var blah = new InstantCommand(() -> swerve.resetPose(traj2.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(
             swerve, blah2));
         return blah;
