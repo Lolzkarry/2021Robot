@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowStatesCommand;
@@ -49,7 +50,7 @@ public class ExtendedTrajectoryUtilities {
     public static Trajectory regenerateTrajectory(Trajectory trajectory, TrajectoryConfig config){
         return TrajectoryGenerator.generateTrajectory(Arrays.asList(trajectory.getStates().stream().map(s -> s.poseMeters).toArray(Pose2d[]::new)), config);
     }
-    public static void addTrajectoryWithShuffleboard(OdometricSwerve swerve, String tabName, String trajectoryName){
+    public static CommandBase addTrajectoryWithShuffleboard(OdometricSwerve swerve, String tabName, String trajectoryName){
         
         var tab = Shuffleboard.getTab(tabName);
         var timeAdvanceEntry = tab.addPersistent("Time Advance", 0.02).getEntry();
@@ -93,10 +94,11 @@ public class ExtendedTrajectoryUtilities {
                 maxRotAccelerationEntry.getDouble(1)));
         }, swerve));
 
+        var realFollow = new InstantCommand(() -> swerve.resetPose(trajectory.getInitialPose().getTranslation()), swerve).andThen(followCommand);
         tab.add("Follow Command Diagnostics", followCommand);
-        tab.add("Run Follow Command", new InstantCommand(() -> swerve.resetPose(trajectory.getInitialPose().getTranslation()), swerve).andThen(followCommand));
+        tab.add("Run Follow Command", realFollow);
 
-
+        return realFollow;
         
     }
 }

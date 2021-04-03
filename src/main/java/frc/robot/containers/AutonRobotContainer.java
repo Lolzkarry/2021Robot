@@ -25,7 +25,7 @@ import frc.robot.autonomous.Autonomous_IndexBallsCommand;
 import frc.robot.autonomous.BouncePathCommand;
 import frc.robot.components.hardware.SparkMaxComponent;
 import frc.robot.components.hardware.TalonSRXComponent;
-import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.NetworkTableBallSensor;
@@ -99,7 +99,7 @@ public class AutonRobotContainer implements RobotContainer {
 
         SmartDashboard.putData("Stop Shooting", new Autonomous_StopShootingCommand(indexer, shooter));
         SmartDashboard.putData("Start Shooting", new Autonomous_StartShootingCommand(indexer, shooter, -3000, -3000));
-        SmartDashboard.putData("Stop Intake", new InstantCommand(() -> intake.setSpeed(0),intake));
+        SmartDashboard.putData("Stop intake", new InstantCommand(() -> intake.setSpeed(0),intake));
 
 
         SmartDashboard.putData("Outtake Ball", new InstantCommand(() -> intake.setSpeed(1),intake));

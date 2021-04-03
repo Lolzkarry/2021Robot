@@ -65,6 +65,9 @@ public class ExtendedMath {
             return (input - deadzone) * slope;
         }
     }
+    public static double withContinuousDeadzone(double input, double deadzone){
+        return withContinuousDeadzone(input, (1/(1-deadzone)),deadzone);
+    }
         /**
      * A custom mod function which returns a remainder with the same sign as the dividend. This is
      * different from using {@code %}, which returns the remainder with the same sign as the
