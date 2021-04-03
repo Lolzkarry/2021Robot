@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autonomous.Autonomous_StartShootingCommand;
 import frc.robot.autonomous.Autonomous_StopShootingCommand;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
+import frc.robot.autonomous.BouncePathCommand;
 import frc.robot.components.hardware.SparkMaxComponent;
 import frc.robot.components.hardware.TalonSRXComponent;
 import frc.robot.subsystems.Intake.Intake;
@@ -114,6 +115,8 @@ public class AutonRobotContainer implements RobotContainer {
         createDefaultControllerBuilder().withEndRotation(new Rotation2d(Math.PI))
         );
         addAutonCommand("AwayFromCenterBackward", createDefaultControllerBuilder().withEndRotation(new Rotation2d(Math.PI)));
+
+        SmartDashboard.putData("Run Bounce Path", new BouncePathCommand(swerve));
 
         addCitrusCompatabileCommand();
         
@@ -244,4 +247,5 @@ public class AutonRobotContainer implements RobotContainer {
         .andThen(() -> arm.setAngle(0.0),arm)
         .andThen(makeAdvancedMoveToTranslationCommand("CitrusCompatibleComeBackPlease")));
     }
+
 }
