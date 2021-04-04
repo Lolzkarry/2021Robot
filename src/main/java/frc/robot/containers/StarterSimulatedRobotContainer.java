@@ -64,6 +64,7 @@ public class StarterSimulatedRobotContainer implements RobotContainer{
 
         SmartDashboard.putData("Example Autonomous Command", exampleAutonomousCommand);
         SmartDashboard.putData("Barrel Racing", createAutonavBarrelRacingCommand());
+        ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Barrel Racing Dotted V2", "BarrelRacing");
     }
 
     private void configureSmartDashboardControls(){
