@@ -16,11 +16,16 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.*;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.LayoutType;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autonomous.pshoot.Autonomous_PreciseShootingCommand;
+import frc.robot.autonomous.pshoot.PreciserVisionPreciseShootingOI;
 import frc.robot.autonomous.Autonomous_ForceIndexBallsCommand;
 import frc.robot.autonomous.GenericAutonUtilities;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
@@ -96,13 +101,19 @@ public class DriverPracticeRobotContainer implements RobotContainer {
 
     private double xSensitivity = 01, ySensitivity = 01, zSensitivity = 1.5, xDeadzone = 0.2, yDeadzone = 0.2,
             zDeadzone = 0.3;
+    private boolean useContinuousDriving = false, useDriverTab = true;
 
     private double turretRadianOffset = 0.0;
     private Translation2d 
     visionTargetTranslation = new Translation2d(15.98, -5.85), 
     innerTargetTranslation = new Translation2d(15.98 + 0.74,-5.85);
 
+    ShuffleboardTab driverTab;
+
     public DriverPracticeRobotContainer() {
+
+        driverTab = Shuffleboard.getTab("Driver Controls");
+
 
         configureBasicOverrides();
 
@@ -408,7 +419,9 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
     private void configureShooter() {
         visionDistanceCalculator = GenericAutonUtilities.makeEntropyVisionDistanceCalculator(limelight);
-        visionPreciseShootingOI = new VisionPreciseShootingOI(visionDistanceCalculator);
+        visionPreciseShootingOI = new PreciserVisionPreciseShootingOI(visionDistanceCalculator, () -> -controlStick.getRawAxis(3)/2+0.5);
+
+        driverTab.add("Shooter OI", (Sendable)visionPreciseShootingOI);
         //var shootCommand = new Autonomous_PreciseShootingCommand(shooter, indexer, -500,-500,1,500);
         var shootCommand = new Autonomous_PreciseShootingCommand(shooter, indexer, visionPreciseShootingOI);
         shootButton.whileHeld(shootCommand);
@@ -420,16 +433,9 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             @Override
             public void initSendable(SendableBuilder builder) {
                 builder.addBooleanProperty("Use Sensors When Indexing", () -> useFancyIntakeCommand, value -> useFancyIntakeCommand = value);
-                builder.addDoubleProperty("X Axis Sensitivity", () -> xSensitivity, value -> xSensitivity = value);
-                builder.addDoubleProperty("Y Axis Sensitivity", () -> ySensitivity, value -> ySensitivity = value);
-                builder.addDoubleProperty("Z Axis Sensitivity", () -> zSensitivity, value -> zSensitivity = value);
-                builder.addDoubleProperty("X Axis Deadzone", () -> xDeadzone, value -> xDeadzone = value);
-                builder.addDoubleProperty("Y Axis Deadzone", () -> yDeadzone, value -> yDeadzone = value);
-                builder.addDoubleProperty("Z Axis Deadzone", () -> zDeadzone, value -> zDeadzone = value);
             }
         });
 
-        SmartDashboard.putData("Swerve Transform", new OdometricSwerveDashboardUtility(swerve));
         SmartDashboard.putData("Vision Distance Calculator", visionDistanceCalculator);
 
         SmartDashboard.putData("Indexer", indexer);
@@ -463,7 +469,42 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
 
     private void configureSwerve() {
-        swerve.setDefaultCommand(createContinuousDeadzoneSwerveCommand());
+        var xSettings = driverTab.getLayout("X Settings",BuiltInLayouts.kList);
+        var ySettings = driverTab.getLayout("Y Settings",BuiltInLayouts.kList);
+        var zSettings = driverTab.getLayout("Z Settings",BuiltInLayouts.kList);
+
+        var xSensitivityEntry = xSettings.addPersistent("Sensitivity", 4).getEntry();
+        var xDeadzoneEntry = xSettings.addPersistent("Deadzone", 0.2).getEntry();
+
+        var ySensitivityEntry = ySettings.addPersistent("Sensitivity", 4).getEntry();
+        var yDeadzoneEntry = ySettings.addPersistent("Deadzone", 0.2).getEntry();
+
+        var zSensitivityEntry = zSettings.addPersistent("Sensitivity", 4).getEntry();
+        var zDeadzoneEntry = zSettings.addPersistent("Deadzone", 0.3).getEntry();
+
+        var continuousDrivingEntry = driverTab.addPersistent("Use Continuous Driving", false).getEntry();
+
+
+        swerve.setDefaultCommand(new RunCommand(() -> {
+            double forwardSpeed, leftwardSpeed, counterClockwardSpeed;
+            if(continuousDrivingEntry.getBoolean(false)){
+                forwardSpeed = withContinuousDeadzone(-driveStick.getY(), yDeadzoneEntry.getDouble(0.2)) * ySensitivityEntry.getDouble(4);
+                leftwardSpeed = withContinuousDeadzone(-driveStick.getX(), xDeadzoneEntry.getDouble(0.2)) * xSensitivityEntry.getDouble(4);
+                counterClockwardSpeed = withContinuousDeadzone(-driveStick.getZ(), zDeadzoneEntry.getDouble(0.3)) * zSensitivityEntry.getDouble(4);
+            }else{
+                forwardSpeed = withHardDeadzone(-driveStick.getY(), yDeadzoneEntry.getDouble(0.2)) * ySensitivityEntry.getDouble(4);
+                leftwardSpeed = withHardDeadzone(-driveStick.getX(), xDeadzoneEntry.getDouble(0.2)) * xSensitivityEntry.getDouble(4);
+                counterClockwardSpeed = withHardDeadzone(-driveStick.getZ(), zDeadzoneEntry.getDouble(0.3)) * zSensitivityEntry.getDouble(4);
+            }
+            swerve.moveFieldCentric(forwardSpeed, leftwardSpeed, counterClockwardSpeed);
+        },swerve));
+
+        
+        
+        if(useDriverTab){
+            Shuffleboard.selectTab("Driver Controls");
+        }
+
         alignToLoadButton.whenHeld(trackLoadingCommand);
     }
     private CommandBase createHardDeadzoneSwerveCommand(){
