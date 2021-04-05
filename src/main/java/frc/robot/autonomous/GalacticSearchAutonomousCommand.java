@@ -8,7 +8,7 @@ import frc.robot.autonomous.pshoot.SmartDashboardPreciseShootingOI;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.vision.CameraVisionSubsystem;
 import frc.robot.subsystems.indexer.Indexer;
-import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import org.opencv.core.Rect;
 
