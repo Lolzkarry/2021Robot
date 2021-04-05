@@ -25,7 +25,6 @@ import frc.robot.autonomous.Autonomous_ForceIndexBallsCommand;
 import frc.robot.autonomous.GenericAutonUtilities;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
 import frc.robot.autonomous.Autonomous_SingleSensorIndexBallsCommand;
-import frc.robot.autonomous.FindPowerCellsCommand;
 import frc.robot.autonomous.BouncePathCommand;
 import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.autonomous.VisionDistanceCalculator;
@@ -586,7 +585,6 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
 
     private void configureSearch(){
-        SmartDashboard.putData("Find Power Cells", new FindPowerCellsCommand());
     }
     private CommandBase createAutonavBarrelRacingCommand(){
         var traj2 = tryGetDeployedTrajectory("BarrelRacing");
