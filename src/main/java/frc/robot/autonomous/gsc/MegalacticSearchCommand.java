@@ -29,6 +29,7 @@ import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowDottedTrajectoryCommand;
 
 import static frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowTrajectoryCommand.createBasicController;
+import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
@@ -46,6 +47,13 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
   public MegalacticSearchCommand(OdometricSwerve swerve, Arm arm, Intake intake, Indexer indexer) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+
+    configToTrajectory.put(GalacticSearchConfiguration.ABlue, tryGetDeployedTrajectory("GSearchABlue"));
+    configToTrajectory.put(GalacticSearchConfiguration.ARed, tryGetDeployedTrajectory("GSearchARed"));
+    configToTrajectory.put(GalacticSearchConfiguration.BBlue, tryGetDeployedTrajectory("GSearchBBlue"));
+    configToTrajectory.put(GalacticSearchConfiguration.BRed, tryGetDeployedTrajectory("GSearchBRed"));
+
+
     this.swerve = swerve;
     followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, new Trajectory(), createBasicController(1, 1, 1, 4, 1));
 
