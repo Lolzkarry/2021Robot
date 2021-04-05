@@ -48,6 +48,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
+    configToTrajectory = new HashMap<>();
     configToTrajectory.put(GalacticSearchConfiguration.ABlue, tryGetDeployedTrajectory("GSearchABlue"));
     configToTrajectory.put(GalacticSearchConfiguration.ARed, tryGetDeployedTrajectory("GSearchARed"));
     configToTrajectory.put(GalacticSearchConfiguration.BBlue, tryGetDeployedTrajectory("GSearchBBlue"));
@@ -107,5 +108,8 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
   }
   private void addTrajectory(ShuffleboardTab tab, GalacticSearchConfiguration configuration){
     addTrajectory(tab, configuration.toString() + " Trajectory Regeneration", configuration);
+  }
+  public Point[] getPoints(){
+    return finder.findPowerCells().stream().map(rect -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
   }
 }

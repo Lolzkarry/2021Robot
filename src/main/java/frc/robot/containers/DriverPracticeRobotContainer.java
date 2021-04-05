@@ -196,6 +196,10 @@ public class DriverPracticeRobotContainer implements RobotContainer {
                 "Barrel Racing",
                 createAutonavBarrelRacingCommand());
         autonomousChooser.addOption("Megalactic Search", configureMegalacticSearchCommand());
+
+        autonomousChooser.addOption(
+            "Dotted Barrel Racing", 
+            ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Dotted Barrel Racing", "BarrelRacing"));
         SmartDashboard.putData("Selected Auto", autonomousChooser);
 
 
@@ -441,6 +445,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
         SmartDashboard.putData("Vision Distance Calculator", visionDistanceCalculator);
 
         SmartDashboard.putData("Indexer", indexer);
+        SmartDashboard.putData("Indexer Sensor", HardwareIndexerFactory.getAnalogSensor());
 
         SmartDashboard.putData(new Sendable(){
         
@@ -449,6 +454,8 @@ public class DriverPracticeRobotContainer implements RobotContainer {
                 builder.addDoubleProperty("Turret Radian Offset", () -> getTurretRadianOffset(), value -> setTurretRadianOffset(value));
             }
         });
+
+
 
     }
 
@@ -633,6 +640,14 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     private Command configureMegalacticSearchCommand(){
         var mgsc = new MegalacticSearchCommand(swerve, arm, intake, indexer);
         mgsc.initializeShuffleboardTab("Megalactic Search Command");
+        SmartDashboard.putData("Record Points", new InstantCommand(() -> {
+            var points = mgsc.getPoints();
+            var string = "";
+            for(var point : points){
+                string += point.toString();
+            }
+            SmartDashboard.putString("Detected Points",string);
+        }));
         return mgsc;
     }
     private CommandBase createAutonavBarrelRacingCommand(){

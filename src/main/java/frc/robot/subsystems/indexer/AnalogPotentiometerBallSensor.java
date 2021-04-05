@@ -57,4 +57,10 @@ public class AnalogPotentiometerBallSensor extends AnalogPotentiometer implement
 
     public void setThreshold(double threshold) {
         this.threshold = threshold;
-    }}
+    }
+    @Override
+    public double get() {
+        // TODO Auto-generated method stub
+        return -super.get();
+    }
+}

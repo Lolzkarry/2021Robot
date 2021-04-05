@@ -20,27 +20,27 @@ public class ConfigurationIdentifier {
         configurationPoints = new HashMap<>();
 
         configurationPoints.put(GalacticSearchConfiguration.ARed, new Point[]{
-            new Point(0, 0),
-            new Point(0,0),
-            new Point(0,0)
+            new Point(176, 194),
+            new Point(237,136),
+            new Point(73,120)
         });
 
         configurationPoints.put(GalacticSearchConfiguration.ABlue, new Point[]{
-            new Point(0,0),
-            new Point(),
-            new Point()
+            new Point(270,120),
+            new Point(128, 113),
+            new Point(168, 103)
         });
 
         configurationPoints.put(GalacticSearchConfiguration.BRed, new Point[]{
-            new Point(),
-            new Point(),
-            new Point()
+            new Point(65,193),
+            new Point(234, 135),
+            new Point(128,113)
         });
         
         configurationPoints.put(GalacticSearchConfiguration.BBlue, new Point[]{
-            new Point(),
-            new Point(),
-            new Point()
+            new Point(219, 122),
+            new Point(142, 108),
+            new Point(199, 99)
         });
     } 
     public GalacticSearchConfiguration identifyConfiguration(Point[] cells){
