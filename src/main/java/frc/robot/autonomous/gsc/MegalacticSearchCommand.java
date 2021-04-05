@@ -66,8 +66,9 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
       Command intakeCommand = new Autonomous_Megindex(indexer, intake, 1, 0.9);
       Command setArm = new InstantCommand(() ->  arm.setAngle(Math.PI));
       Command resetArm = new InstantCommand(() -> arm.setAngle(0));
+      var resetPosition = new InstantCommand(() -> swerve.resetPose(followCommand.getTrajectory().getInitialPose().getTranslation()), swerve);
       Command run = new ConditionalCommand (new InstantCommand(), //if not error
-        setArm.alongWith(intakeCommand).alongWith(followCommand).andThen(resetArm), //if error
+        setArm.alongWith(intakeCommand).alongWith(resetPosition.andThen(followCommand)).andThen(resetArm), //if error
               () -> error);
 
 
