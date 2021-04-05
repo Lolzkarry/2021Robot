@@ -14,6 +14,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.autonomous.GenericAutonUtilities;
+import frc.robot.autonomous.gsc.MegalacticSearchCommand;
+import frc.robot.components.virtual.VirtualSmartMotorComponent;
+import frc.robot.subsystems.arm.Arm;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.VirtualBallSensor;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_AdvancedFollowTrajectoryCommand;
 import frc.robot.subsystems.swerve.odometric.factory.OdometricSimulatedSwerveFactory;
@@ -65,6 +71,8 @@ public class StarterSimulatedRobotContainer implements RobotContainer{
         SmartDashboard.putData("Example Autonomous Command", exampleAutonomousCommand);
         SmartDashboard.putData("Barrel Racing", createAutonavBarrelRacingCommand());
         ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Barrel Racing Dotted V2", "BarrelRacing");
+        var mgsc = new MegalacticSearchCommand(swerve, new Arm(new VirtualSmartMotorComponent()), new Intake(new VirtualSmartMotorComponent()), new Indexer(new VirtualSmartMotorComponent(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor()));
+        mgsc.initializeShuffleboardTab("Megalactic Search Command");
     }
 
     private void configureSmartDashboardControls(){

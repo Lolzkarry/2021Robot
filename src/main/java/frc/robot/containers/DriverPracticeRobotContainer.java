@@ -33,6 +33,7 @@ import frc.robot.autonomous.Autonomous_SingleSensorIndexBallsCommand;
 import frc.robot.autonomous.BouncePathCommand;
 import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.autonomous.VisionDistanceCalculator;
+import frc.robot.autonomous.gsc.MegalacticSearchCommand;
 import frc.robot.autonomous.pshoot.VisionPreciseShootingOI;
 import frc.robot.components.hardware.CameraVisionComponent;
 import frc.robot.components.hardware.LimelightVisionComponent;
@@ -191,11 +192,12 @@ public class DriverPracticeRobotContainer implements RobotContainer {
        ExtendedTrajectoryUtilities.addTrajectoryWithShuffleboard(swerve, "Barrel Racing V2", "BarrelRacing")
             
             );
+            autonomousChooser.addOption(
+                "Barrel Racing",
+                createAutonavBarrelRacingCommand());
+        autonomousChooser.addOption("Megalactic Search", configureMegalacticSearchCommand());
         SmartDashboard.putData("Selected Auto", autonomousChooser);
 
-        autonomousChooser.addOption(
-            "Barrel Racing",
-            createAutonavBarrelRacingCommand());
 
     
     }
@@ -626,6 +628,12 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
 
     private void configureSearch(){
+    }
+
+    private Command configureMegalacticSearchCommand(){
+        var mgsc = new MegalacticSearchCommand(swerve, arm, intake, indexer);
+        mgsc.initializeShuffleboardTab("Megalactic Search Command");
+        return mgsc;
     }
     private CommandBase createAutonavBarrelRacingCommand(){
         var traj2 = tryGetDeployedTrajectory("BarrelRacing");
