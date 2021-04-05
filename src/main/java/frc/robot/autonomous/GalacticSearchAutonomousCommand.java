@@ -3,6 +3,7 @@ package frc.robot.autonomous;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.autonomous.gsc.PowerCellFinder;
 import frc.robot.autonomous.pshoot.SmartDashboardPreciseShootingOI;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.vision.CameraVisionSubsystem;

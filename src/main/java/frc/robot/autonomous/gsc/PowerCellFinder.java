@@ -1,4 +1,4 @@
-package frc.robot.autonomous;
+package frc.robot.autonomous.gsc;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
