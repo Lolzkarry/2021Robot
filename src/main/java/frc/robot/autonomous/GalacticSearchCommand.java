@@ -34,7 +34,7 @@ public class GalacticSearchCommand extends ParallelCommandGroup {
         paths.put("BBlue", "GSearchBBlue");
 
         //commands to make robot do
-        Command intakeCommand = new Autonomous_IndexBallsCommand(indexer, intake, 1, 0.9);
+        Command intakeCommand = new Autonomous_Megindex(indexer, intake, 1, 0.9);
         Command setArm = new InstantCommand(() ->  arm.setAngle(Math.PI/2));
         Command resetArm = new InstantCommand(() -> arm.setAngle(0));
 

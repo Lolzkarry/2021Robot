@@ -28,7 +28,7 @@ import frc.robot.autonomous.pshoot.Autonomous_PreciseShootingCommand;
 import frc.robot.autonomous.pshoot.PreciserVisionPreciseShootingOI;
 import frc.robot.autonomous.Autonomous_ForceIndexBallsCommand;
 import frc.robot.autonomous.GenericAutonUtilities;
-import frc.robot.autonomous.Autonomous_IndexBallsCommand;
+import frc.robot.autonomous.Autonomous_Megindex;
 import frc.robot.autonomous.Autonomous_SingleSensorIndexBallsCommand;
 import frc.robot.autonomous.BouncePathCommand;
 import frc.robot.autonomous.ExtendedTrajectoryUtilities;
@@ -136,7 +136,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
 
         configureAutonomous();
 
-        backupIndexerButton.whileHeld(new Autonomous_IndexBallsCommand(indexer, intake, 1, 0));
+        backupIndexerButton.whileHeld(new Autonomous_Megindex(indexer, intake, 1, 0));
 
         configureSearch();
     }
@@ -231,7 +231,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
                     .withEndRotation(new Rotation2d(7 * Math.PI / 6))
                     .buildController()))
             .andThen(() -> arm.setAngle(Math.PI / 2), arm)
-            .andThen(new Autonomous_IndexBallsCommand(indexer, intake, 1, 0.9).withTimeout(5))
+            .andThen(new Autonomous_Megindex(indexer, intake, 1, 0.9).withTimeout(5))
             .andThen(() -> arm.setAngle(0), arm)
             .andThen(
                 new OdometricSwerve_AdvancedFollowTrajectoryCommand(
@@ -326,7 +326,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
                 .buildController()))
             .andThen(() -> swerve.moveFieldCentric(0, 0, 0), swerve).andThen(() -> arm.setAngle(Math.PI / 2.1), arm)
             .andThen(
-                new Autonomous_IndexBallsCommand(indexer, intake, 1.0, 0.9)
+                new Autonomous_Megindex(indexer, intake, 1.0, 0.9)
                 .raceWith(
                     new RunCommand(() -> swerve.moveFieldCentric(0.1, -0.25 * 2, 0), swerve)
                     .withTimeout(2)
@@ -566,7 +566,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
         mainIntakeButton
         .whileHeld(
             new ConditionalCommand(
-                new Autonomous_IndexBallsCommand(indexer, intake, 1, 0.9)
+                new Autonomous_Megindex(indexer, intake, 1, 0.9)
                 .alongWith(
                     new FunctionalCommand(
                         () -> arm.setAngle(Math.PI / 2), 

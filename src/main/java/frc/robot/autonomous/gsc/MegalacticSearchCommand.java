@@ -11,6 +11,8 @@ import org.opencv.core.Point;
 import org.opencv.core.Rect;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -20,7 +22,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstr
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.autonomous.Autonomous_IndexBallsCommand;
+import frc.robot.autonomous.Autonomous_Megindex;
 import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.indexer.Indexer;
@@ -56,24 +58,26 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
 
 
     this.swerve = swerve;
-    followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, new Trajectory(), createBasicController(1, 1, 1, 4, 1));
+    followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, new Trajectory(), createBasicController(1, 1, 4, 4, 3));
+    followCommand.getController().setTolerance(new Pose2d(0.1, 0.1, new Rotation2d(0.5)));
 
     addCommands(
       new InstantCommand(() -> finderResult = finder.findPowerCells()),
       new InstantCommand(() -> {
-        if(finderResult.size() != 3){
+        if(finderResult == null || finderResult.size() != 3){
           error = true;
         }else{
           error = false;
           var points = getFinderResult().stream().map((Rect rect) -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
           var configuration = identifier.identifyConfiguration(points);
+          DriverStation.reportError("Running Configuration "+configuration.toString(), false);
           var trajectory = configToTrajectory.get(configuration);
           followCommand.setTrajectory(trajectory);
         }
       }),
       new ConditionalCommand(
           new InstantCommand(() -> DriverStation.reportError("Robot is not finding 3 cells", false)), 
-          (new InstantCommand(() -> arm.setAngle(Math.PI), arm).alongWith(followCommand, new Autonomous_IndexBallsCommand(indexer, intake, 1, 0.9)))
+          (new InstantCommand(() -> arm.setAngle(Math.PI/1.1), arm).alongWith(new InstantCommand(() -> swerve.resetPose(followCommand.getTrajectory().getInitialPose().getTranslation()), swerve).andThen(followCommand), new Autonomous_Megindex(indexer, intake, 1, 0.9)))
           .andThen(new InstantCommand(() -> arm.setAngle(0))), 
           () -> error)
     );
