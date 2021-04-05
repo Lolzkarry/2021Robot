@@ -94,4 +94,9 @@ public class ExtendedMath {
         double shortestDifference = customMod(actualDifference + Math.PI, 2 * Math.PI) - Math.PI;
         return shortestDifference;
     }
+    public static double distance(Translation2d start, Translation2d end){
+        var x = end.getX() - start.getX();
+        var y = end.getY() - start.getY();
+        return Math.sqrt(x*x + y*y);
+    }
 }

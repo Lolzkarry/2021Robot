@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autonomous.*;
 import frc.robot.components.hardware.SparkMaxComponent;
 import frc.robot.components.hardware.TalonSRXComponent;
-import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.NetworkTableBallSensor;
@@ -96,7 +96,7 @@ public class AutonRobotContainer implements RobotContainer {
 
         SmartDashboard.putData("Stop Shooting", new Autonomous_StopShootingCommand(indexer, shooter));
         SmartDashboard.putData("Start Shooting", new Autonomous_StartShootingCommand(indexer, shooter, -3000, -3000));
-        SmartDashboard.putData("Stop Intake", new InstantCommand(() -> intake.setSpeed(0),intake));
+        SmartDashboard.putData("Stop intake", new InstantCommand(() -> intake.setSpeed(0),intake));
 
 
         SmartDashboard.putData("Outtake Ball", new InstantCommand(() -> intake.setSpeed(1),intake));
@@ -118,6 +118,7 @@ public class AutonRobotContainer implements RobotContainer {
         SmartDashboard.putData("TEST: Galactic Search Path B Red", new GalacticSearchCommand(swerve,intake,indexer,arm,"BRed"));
         SmartDashboard.putData("TEST: Galactic Search Path Bg Red", new GalacticSearchCommand(swerve,intake,indexer,arm,"BBlue"));
 
+        SmartDashboard.putData("Run Bounce Path", new BouncePathCommand(swerve));
 
         addCitrusCompatabileCommand();
         
@@ -248,4 +249,5 @@ public class AutonRobotContainer implements RobotContainer {
         .andThen(() -> arm.setAngle(0.0),arm)
         .andThen(makeAdvancedMoveToTranslationCommand("CitrusCompatibleComeBackPlease")));
     }
+
 }

@@ -9,11 +9,28 @@ package frc.robot.autonomous;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
+import frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowDottedTrajectoryCommand;
+import frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowStatesCommand;
+import frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowTrajectoryCommand;
+
+import static frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowTrajectoryCommand.createBasicController;
 
 /**
  * Add your docs here.
@@ -34,5 +51,78 @@ public class ExtendedTrajectoryUtilities {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryName, ex.getStackTrace());
             return new Trajectory(null);
         }
+    }
+    public static Trajectory regenerateTrajectory(Trajectory trajectory, TrajectoryConfig config){
+        return TrajectoryGenerator.generateTrajectory(Arrays.asList(trajectory.getStates().stream().map(s -> s.poseMeters).toArray(Pose2d[]::new)), config);
+    }
+    public static CommandBase addTrajectoryWithShuffleboard(OdometricSwerve swerve, String tabName, String trajectoryName){
+        
+        var tab = Shuffleboard.getTab(tabName);
+        var timeAdvanceEntry = tab.addPersistent("Time Advance", 0.02).getEntry();
+        var distanceMultiplerEntry = tab.addPersistent("Distance Multiplier", 3).getEntry();
+
+        var trajectory = tryGetDeployedTrajectory(trajectoryName);
+        var followCommand = new OdometricSwerve_FollowStatesCommand(swerve, trajectory, createBasicController(1, 1, 1, 4, 1), distance -> {
+            return Math.min(timeAdvanceEntry.getDouble(0.02), 1/(distance * distanceMultiplerEntry.getDouble(3)));
+        });
+
+        
+
+        createTrajectoryRegenerationLayout(swerve, tab, trajectory, followCommand);
+
+        createControllerRegenerationLayout(swerve, tab, followCommand);
+
+        return createAndAddFinalFollowCommand(swerve, tab, trajectory, followCommand);
+        
+    }
+
+    public static CommandBase addDottedTrajectoryWithShuffleboard(OdometricSwerve swerve, String tabName, String trajectoryName){
+        var tab = Shuffleboard.getTab(tabName);
+        var trajectory = tryGetDeployedTrajectory(trajectoryName);
+        var followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, trajectory, createBasicController(1, 1, 1, 4, 1), 0.01, 0.02);
+        createTrajectoryRegenerationLayout(swerve, tab, trajectory, followCommand);
+
+        createControllerRegenerationLayout(swerve, tab, followCommand);
+
+        return createAndAddFinalFollowCommand(swerve, tab, trajectory, followCommand);
+    }
+    private static CommandBase createAndAddFinalFollowCommand(OdometricSwerve swerve, ShuffleboardTab tab, Trajectory trajectory, OdometricSwerve_FollowTrajectoryCommand  followCommand) {
+        var realFollow = new InstantCommand(() -> swerve.resetPose(trajectory.getInitialPose().getTranslation()), swerve).andThen(followCommand);
+        tab.add("Follow Command Diagnostics", followCommand);
+        tab.add("Run Follow Command", realFollow);
+        return realFollow;
+    }
+    private static void createControllerRegenerationLayout(OdometricSwerve swerve, ShuffleboardTab tab, OdometricSwerve_FollowTrajectoryCommand followCommand) {
+        var controllerLayout = tab.getLayout("Controller Regeneration", BuiltInLayouts.kList);
+        var kPxEntry = controllerLayout.add("kPx", 1).getEntry();
+        var kPyEntry = controllerLayout.add("kPy", 1).getEntry();
+        var kPwEntry = controllerLayout.add("kPw", 1).getEntry();
+        var maxRotSpeedEntry = controllerLayout.add("Max Rotational Speed", 4).getEntry();
+        var maxRotAccelerationEntry = controllerLayout.add("Max Rotational Acceleration", 1).getEntry();
+        controllerLayout.add("Regenerate Controller", new InstantCommand(() -> {
+            followCommand.setController(createBasicController(
+                kPxEntry.getDouble(1), 
+                kPyEntry.getDouble(1), 
+                kPwEntry.getDouble(1), 
+                maxRotSpeedEntry.getDouble(4), 
+                maxRotAccelerationEntry.getDouble(1)));
+        }, swerve));
+    }
+    private static void createTrajectoryRegenerationLayout(OdometricSwerve swerve, ShuffleboardTab tab, Trajectory trajectory, OdometricSwerve_FollowTrajectoryCommand followCommand) {
+        var trajectoryLayout = tab.getLayout("Trajectory Regeneration", BuiltInLayouts.kList);
+        var maxVelocityEntry = trajectoryLayout.add("Max Velocity Meters", 2.4).getEntry();
+        var maxAccelerationEntry = trajectoryLayout.add("Max Acceleration Meters", 0.5).getEntry();
+        var maxCentripetalAccelerationEntry = trajectoryLayout.add("Max Centripetal Acceleration Meters", 0.5).getEntry();
+        trajectoryLayout.add("Regenerate Trajectory", new InstantCommand(() -> {
+
+            var config =  new TrajectoryConfig(
+                maxVelocityEntry.getDouble(2.4), 
+                maxAccelerationEntry.getDouble(0.5));
+            config.addConstraint(new CentripetalAccelerationConstraint(maxCentripetalAccelerationEntry.getDouble(0.5)));
+            followCommand.setTrajectory(
+                ExtendedTrajectoryUtilities.regenerateTrajectory(
+                    trajectory, 
+                   config));
+        }, swerve));
     }
 }

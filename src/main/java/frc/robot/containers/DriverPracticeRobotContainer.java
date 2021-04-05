@@ -26,12 +26,14 @@ import frc.robot.autonomous.GenericAutonUtilities;
 import frc.robot.autonomous.Autonomous_IndexBallsCommand;
 import frc.robot.autonomous.Autonomous_SingleSensorIndexBallsCommand;
 import frc.robot.autonomous.FindPowerCellsCommand;
+import frc.robot.autonomous.BouncePathCommand;
+import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.autonomous.VisionDistanceCalculator;
 import frc.robot.autonomous.pshoot.VisionPreciseShootingOI;
 import frc.robot.components.hardware.CameraVisionComponent;
 import frc.robot.components.hardware.LimelightVisionComponent;
-import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Intake.factory.HardwareIntakeFactory;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.factory.HardwareIntakeFactory;
 import frc.robot.subsystems.arm.Arm;
 import frc.robot.subsystems.arm.factory.HardwareArmFactory;
 import frc.robot.subsystems.climber.Climber;
@@ -93,7 +95,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     private VisionDistanceCalculator visionDistanceCalculator;
     private VisionPreciseShootingOI visionPreciseShootingOI;
 
-    private double xSensitivity = 4, ySensitivity = 4, zSensitivity = 4, xDeadzone = 0.2, yDeadzone = 0.2,
+    private double xSensitivity = 01, ySensitivity = 01, zSensitivity = 1.5, xDeadzone = 0.2, yDeadzone = 0.2,
             zDeadzone = 0.3;
 
     private double turretRadianOffset = 0.0;
@@ -169,10 +171,40 @@ public class DriverPracticeRobotContainer implements RobotContainer {
         autonomousChooser.addOption(
             "Example Autonomous", 
             createExampleAutonomousCommand());
-
+            configureSlalomRobert();
+        autonomousChooser.addOption(
+            "Bounce Path",
+            new BouncePathCommand(swerve)
+        );
+        autonomousChooser.addOption(
+            "Advanced Barrel Racing", 
+       ExtendedTrajectoryUtilities.addTrajectoryWithShuffleboard(swerve, "Barrel Racing V2", "BarrelRacing")
+            
+            );
         SmartDashboard.putData("Selected Auto", autonomousChooser);
+
+        autonomousChooser.addOption(
+            "Barrel Racing",
+            createAutonavBarrelRacingCommand());
+
+    
     }
 
+    private void configureSlalomRobert(){
+        var traj = tryGetDeployedTrajectory("RobertSlalom2");
+        var ac = createDefaultControllerBuilder().with_kP(0.5).withTrajectory(traj).withMaxVelocity(2.5).buildController();
+        //ac.setContinuousRotation();
+        ac.setSamplingRate(4);
+        
+        autonomousChooser.addOption("Slalom Path Robert", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+    }
+    private void configureSlalomMartin(){
+        var traj = tryGetDeployedTrajectory("SlalomTest");
+        var ac = createDefaultControllerBuilder().withTrajectory(traj).buildController();
+        ac.setContinuousRotation();
+        ac.setSamplingRate(2);
+        SmartDashboard.putData("Slalom Path Martin", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+    }
     private SequentialCommandGroup createTrenchCitrusCompatibleBCommand() {
         return createTrenchCitrusPart1Command()
             .andThen(
@@ -432,7 +464,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     }
 
     private void configureSwerve() {
-        swerve.setDefaultCommand(createHardDeadzoneSwerveCommand());
+        swerve.setDefaultCommand(createContinuousDeadzoneSwerveCommand());
         alignToLoadButton.whenHeld(trackLoadingCommand);
     }
     private CommandBase createHardDeadzoneSwerveCommand(){
@@ -555,5 +587,19 @@ public class DriverPracticeRobotContainer implements RobotContainer {
 
     private void configureSearch(){
         SmartDashboard.putData("Find Power Cells", new FindPowerCellsCommand());
+    }
+    private CommandBase createAutonavBarrelRacingCommand(){
+        var traj2 = tryGetDeployedTrajectory("BarrelRacing");
+
+        var blah2 = createDefaultControllerBuilder()
+        .withEndRotation(new Rotation2d(0.0))
+        .withTrajectory(tryGetDeployedTrajectory("BarrelRacing"))
+        .withMaxVelocity(2.5)
+        .buildController();
+
+        blah2.setSamplingRate(6);
+        var blah = new InstantCommand(() -> swerve.resetPose(traj2.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(
+            swerve, blah2));
+        return blah;
     }
 }

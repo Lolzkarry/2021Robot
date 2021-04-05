@@ -6,8 +6,10 @@ package frc.robot.containers;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.autonomous.ExtendedTrajectoryUtilities;
@@ -16,6 +18,8 @@ import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_AdvancedFollowTrajectoryCommand;
 import frc.robot.subsystems.swerve.odometric.factory.OdometricSimulatedSwerveFactory;
 import frc.robot.utility.ExtendedMath;
+
+import static frc.robot.autonomous.ExtendedTrajectoryUtilities.tryGetDeployedTrajectory;
 
 /** Add your docs here. */
 public class StarterSimulatedRobotContainer implements RobotContainer{
@@ -29,6 +33,8 @@ public class StarterSimulatedRobotContainer implements RobotContainer{
 
         if(useXboxController){
             configureXboxController();
+        }else{
+            swerve.setDefaultCommand(new RunCommand(() -> swerve.moveFieldCentric(0, 0, 0), swerve));
         }
 
         configureSmartDashboardControls();
@@ -57,11 +63,23 @@ public class StarterSimulatedRobotContainer implements RobotContainer{
             pathController));
 
         SmartDashboard.putData("Example Autonomous Command", exampleAutonomousCommand);
+        SmartDashboard.putData("Barrel Racing", createAutonavBarrelRacingCommand());
+        ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Barrel Racing Dotted V2", "BarrelRacing");
     }
 
     private void configureSmartDashboardControls(){
         SmartDashboard.putData("Recalibrate Swerve Pose", new InstantCommand(() -> swerve.resetPose(), swerve));
         SmartDashboard.putData("Recalibrate Swerve Position", new InstantCommand(() -> swerve.resetPose(new Translation2d())));
+    }
+    private CommandBase createAutonavBarrelRacingCommand(){
+        var traj2 = tryGetDeployedTrajectory("BarrelRacing");
+        return new InstantCommand(() -> swerve.resetPose(traj2.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(
+            swerve,
+            GenericAutonUtilities.createDefaultControllerBuilder()
+            .withEndRotation(new Rotation2d(0.0))
+            .withTrajectory(tryGetDeployedTrajectory("BarrelRacing"))
+            .withMaxVelocity(1)
+            .buildController()));
     }
 
 }
