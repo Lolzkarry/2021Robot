@@ -7,6 +7,7 @@ package frc.robot.autonomous.gsc;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 
@@ -61,27 +62,38 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
     followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, new Trajectory(), createBasicController(1, 1, 4, 4, 3));
     followCommand.getController().setTolerance(new Pose2d(0.1, 0.1, new Rotation2d(0.5)));
 
+
+      Command intakeCommand = new Autonomous_Megindex(indexer, intake, 1, 0.9);
+      Command setArm = new InstantCommand(() ->  arm.setAngle(Math.PI));
+      Command resetArm = new InstantCommand(() -> arm.setAngle(0));
+      Command run = new ConditionalCommand (new InstantCommand(), //if not error
+        setArm.alongWith(intakeCommand).alongWith(followCommand).andThen(resetArm), //if error
+              () -> error);
+
+
+
+
     addCommands(
-      new InstantCommand(() -> finderResult = finder.findPowerCells()),
-      new InstantCommand(() -> {
-        if(finderResult == null || finderResult.size() != 3){
-          error = true;
-        }else{
-          error = false;
-          var points = getFinderResult().stream().map((Rect rect) -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
-          var configuration = identifier.identifyConfiguration(points);
-          DriverStation.reportError("Running Configuration "+configuration.toString(), false);
-          var trajectory = configToTrajectory.get(configuration);
-          followCommand.setTrajectory(trajectory);
-        }
-      }),
-      new ConditionalCommand(
-          new InstantCommand(() -> DriverStation.reportError("Robot is not finding 3 cells", false)), 
-          (new InstantCommand(() -> arm.setAngle(Math.PI/1.1), arm).alongWith(new InstantCommand(() -> swerve.resetPose(followCommand.getTrajectory().getInitialPose().getTranslation()), swerve).andThen(followCommand), new Autonomous_Megindex(indexer, intake, 1, 0.9)))
-          .andThen(new InstantCommand(() -> arm.setAngle(0))), 
-          () -> error)
-    );
+      new InstantCommand(() -> {finderResult = finder.findPowerCells(); }), //finds power cells
+      new InstantCommand(() -> {followCommand.setTrajectory(getTrajectory(finderResult)); }), //sets the trajectory
+        run); //runs the code 
   }
+
+  public Trajectory getTrajectory(ArrayList<Rect> finderResults){
+    if(finderResult.size() != 3){
+      DriverStation.reportError("Robot is not finding 3 cells", false);
+      error = true;
+      return null;
+    }
+    else{
+      error = false;
+      var points = getFinderResult().stream().map((Rect rect) -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
+      var configuration = identifier.identifyConfiguration(points);
+      var trajectory = configToTrajectory.get(configuration);
+      return trajectory;
+    }
+  }
+
   public ArrayList<Rect> getFinderResult() {
       return finderResult;
   }
