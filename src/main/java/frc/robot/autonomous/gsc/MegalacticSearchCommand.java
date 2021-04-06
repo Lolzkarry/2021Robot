@@ -5,8 +5,13 @@
 package frc.robot.autonomous.gsc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.trajectory.constraint.MaxVelocityConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.RectangularRegionConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -46,6 +51,14 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
 
   OdometricSwerve_FollowDottedTrajectoryCommand followCommand;
 
+  //trajectory constraints
+  TrajectoryConstraint[] ARedConstraints;
+  TrajectoryConstraint[] ABlueConstraints;
+  TrajectoryConstraint[] BRedConstraints;
+  TrajectoryConstraint[] BBlueConstraints;
+  TrajectoryConstraint[][] allConstraints;
+
+
   /** Creates a new MegalacticSearchCommand. */
   public MegalacticSearchCommand(OdometricSwerve swerve, Arm arm, Intake intake, Indexer indexer) {
     // Add your commands in the addCommands() call, e.g.
@@ -57,6 +70,29 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
     configToTrajectory.put(GalacticSearchConfiguration.BBlue, tryGetDeployedTrajectory("GSearchBBlue"));
     configToTrajectory.put(GalacticSearchConfiguration.BRed, tryGetDeployedTrajectory("GSearchBRed"));
 
+
+    //trajectory constraints
+    ARedConstraints = new TrajectoryConstraint[] {
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+    };
+    ABlueConstraints = new TrajectoryConstraint[] {
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+    };
+    BRedConstraints = new TrajectoryConstraint[] {
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+    };
+    BBlueConstraints = new TrajectoryConstraint[] {
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+    };
+    allConstraints = new TrajectoryConstraint[][]{ARedConstraints,ABlueConstraints,BRedConstraints,BBlueConstraints};
 
     this.swerve = swerve;
     followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, new Trajectory(), createBasicController(1, 1, 4, 4, 3));
@@ -77,7 +113,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> {finderResult = finder.findPowerCells(); }), //finds power cells
       new InstantCommand(() -> {followCommand.setTrajectory(getTrajectory(finderResult)); }), //sets the trajectory
-        run); //runs the code 
+        run); //runs the code
   }
 
   public Trajectory getTrajectory(ArrayList<Rect> finderResults){
@@ -116,6 +152,11 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
             maxVelocityEntry.getDouble(2.4), 
             maxAccelerationEntry.getDouble(0.5));
         config.addConstraint(new CentripetalAccelerationConstraint(maxCentripetalAccelerationEntry.getDouble(0.5)));
+
+        for (TrajectoryConstraint constraint : allConstraints[Arrays.asList(GalacticSearchConfiguration.values()).indexOf(configuration)]){
+          config.addConstraint(constraint);
+        }
+
         var newTrajectory = ExtendedTrajectoryUtilities.regenerateTrajectory(trajectory, config);
         configToTrajectory.put(configuration, newTrajectory);
     }, swerve));
