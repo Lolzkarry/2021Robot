@@ -38,6 +38,7 @@ public class Shooter extends SubsystemBase {
         return Math.abs(desiredBottomSpeed - radPerSecToRotPerMin(bottomMotor.getAngularVelocity())) < threshold;
     }
     public void disableMotors(){
+        desiredBottomSpeed = desiredTopSpeed = 0;
         topMotor.setOutput(0);
         bottomMotor.setOutput(0);
     }
