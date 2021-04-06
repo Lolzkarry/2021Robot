@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.constraint.MaxVelocityConstraint;
 import edu.wpi.first.wpilibj.trajectory.constraint.RectangularRegionConstraint;
 import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -73,26 +74,27 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
 
     //trajectory constraints
     double maxBallVelocity = 1;
+    double constraintDiameter = 1;
 
     ARedConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
+            createSquareConstraint(7.5, 7.5, constraintDiameter/2, maxBallVelocity),//C3
+            createSquareConstraint(12.5, 5.0, constraintDiameter/2, maxBallVelocity),//D5
+            createSquareConstraint(15.0, 12.5, constraintDiameter/2, maxBallVelocity)//A6
     };
     ABlueConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
+      createSquareConstraint(15, 2.5, constraintDiameter/2, maxBallVelocity),//E6
+      createSquareConstraint(17.5, 10.0, constraintDiameter/2, maxBallVelocity),//B7
+      createSquareConstraint(22.5, 7.5, constraintDiameter/2, maxBallVelocity)//C9
     };
     BRedConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
+      createSquareConstraint(7.5, 10.0, constraintDiameter/2, maxBallVelocity),//B3
+      createSquareConstraint(12.5, 5.0, constraintDiameter/2, maxBallVelocity),//D5
+      createSquareConstraint(17.5, 10.0, constraintDiameter/2, maxBallVelocity)//B7
     };
     BBlueConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
+      createSquareConstraint(15.0, 5.0, constraintDiameter/2, maxBallVelocity),//D6
+      createSquareConstraint(20.0, 10.0, constraintDiameter/2, maxBallVelocity),//B8
+      createSquareConstraint(25.0, 5.0, constraintDiameter/2, maxBallVelocity)//D10
     };
     allConstraints = new TrajectoryConstraint[][]{ARedConstraints,ABlueConstraints,BRedConstraints,BBlueConstraints};
 
@@ -171,5 +173,18 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
   }
   public Point[] getPoints(){
     return finder.findPowerCells().stream().map(rect -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
+  }
+  static Translation2d convertFieldToTrajectory(double xFeet, double yFeet){
+    return new Translation2d(Units.feetToMeters(xFeet), -Units.feetToMeters(15-yFeet)+15);
+  }
+  static RectangularRegionConstraint createSquareConstraint(Translation2d center, double apothem, TrajectoryConstraint constraint){
+    var offset  = new Translation2d(apothem,apothem);
+    return new RectangularRegionConstraint(center.minus(offset), center.plus(offset), constraint);
+  }
+  static RectangularRegionConstraint createSquareConstraint(Translation2d center, double apothem, double velocity){
+    return createSquareConstraint(center, apothem, new MaxVelocityConstraint(velocity));
+  }
+  static RectangularRegionConstraint createSquareConstraint(double xFeet, double yFeet, double apothem, double velocity){
+    return createSquareConstraint(convertFieldToTrajectory(xFeet, yFeet), apothem, velocity);
   }
 }
