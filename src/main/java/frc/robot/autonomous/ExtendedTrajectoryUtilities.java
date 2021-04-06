@@ -86,6 +86,18 @@ public class ExtendedTrajectoryUtilities {
 
         return createAndAddFinalFollowCommand(swerve, tab, trajectory, followCommand);
     }
+
+
+    public static CommandBase addDottedTrajectoryWithShuffleboard(OdometricSwerve swerve, String tabName, String trajectoryName, boolean rotation, double rotationOffset){
+        var tab = Shuffleboard.getTab(tabName);
+        var trajectory = tryGetDeployedTrajectory(trajectoryName);
+        var followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, trajectory, createBasicController(1, 1, 1, 4, 1), 0.01, 0.02, rotation, rotationOffset);
+        createTrajectoryRegenerationLayout(swerve, tab, trajectory, followCommand);
+
+        createControllerRegenerationLayout(swerve, tab, followCommand);
+
+        return createAndAddFinalFollowCommand(swerve, tab, trajectory, followCommand);
+    }
     private static CommandBase createAndAddFinalFollowCommand(OdometricSwerve swerve, ShuffleboardTab tab, Trajectory trajectory, OdometricSwerve_FollowTrajectoryCommand  followCommand) {
         var realFollow = new InstantCommand(() -> swerve.resetPose(trajectory.getInitialPose().getTranslation()), swerve).andThen(followCommand);
         tab.add("Follow Command Diagnostics", followCommand);

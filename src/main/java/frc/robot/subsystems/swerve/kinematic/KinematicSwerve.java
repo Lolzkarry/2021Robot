@@ -21,6 +21,7 @@ public class KinematicSwerve extends SubsystemBase {
   protected double lowestMaximumWheelSpeed;
   protected double currentGyroZero = 0.0;
   protected GyroComponent gyro;
+  private int resetCounter;
   /**
    * Creates a new KinematicSwerve.
    */
@@ -36,6 +37,12 @@ public class KinematicSwerve extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (resetCounter > 500){
+      resetWheels();
+    }
+    else{
+      resetCounter++;
+    }
     // This method will be called once per scheduler run
   }
   /**
@@ -45,6 +52,7 @@ public class KinematicSwerve extends SubsystemBase {
    * @param wSpeed Counterclockwise rotational speed in radians/second
    */
   public void moveRobotCentric(double xSpeed, double ySpeed, double wSpeed){
+    resetCounter = 0;
     var chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, wSpeed);  
     moveRobotCentric(chassisSpeeds);
   }
@@ -118,5 +126,11 @@ public class KinematicSwerve extends SubsystemBase {
   }
   public void resetRobotAngle(double angle){
     currentGyroZero = gyro.getAngle() - angle;
+  }
+
+  public void resetWheels(){
+    for (KinematicWheelModule wheel : wheelModules){
+      wheel.angleSetterComponent.setAngle(0);
+    }
   }
 }

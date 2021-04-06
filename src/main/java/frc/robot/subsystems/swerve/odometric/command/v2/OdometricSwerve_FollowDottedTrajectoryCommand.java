@@ -20,6 +20,7 @@ public class OdometricSwerve_FollowDottedTrajectoryCommand extends OdometricSwer
       HolonomicDriveController controller) {
     super(swerve, trajectory, controller);
   }
+
   @Override
   public void initialize() {
     internalTime = 0.0;
@@ -48,6 +49,14 @@ public class OdometricSwerve_FollowDottedTrajectoryCommand extends OdometricSwer
     super(swerve, trajectory, controller);
     this.timeStep = timeStep;
     this.threshold = threshold;
+  }
+  public OdometricSwerve_FollowDottedTrajectoryCommand(OdometricSwerve swerve, Trajectory trajectory,
+                                                       HolonomicDriveController controller, double threshold, double timeStep, boolean rotation, double rotationOffset) {
+    super(swerve, trajectory, controller);
+    this.timeStep = timeStep;
+    this.threshold = threshold;
+    setRotation(rotation);
+    setDesiredRotationOffset(rotationOffset);
   }
   public OdometricSwerve_FollowDottedTrajectoryCommand(OdometricSwerve swerve, Trajectory trajectory,
       HolonomicDriveController controller, double threshold) {
