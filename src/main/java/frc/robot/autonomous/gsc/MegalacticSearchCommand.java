@@ -72,25 +72,27 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
 
 
     //trajectory constraints
+    double maxBallVelocity = 1;
+
     ARedConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
     };
     ABlueConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
     };
     BRedConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
     };
     BBlueConstraints = new TrajectoryConstraint[] {
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0)),
-            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(1.0))
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity)),
+            new RectangularRegionConstraint(new Translation2d(5.367,-3.137),new Translation2d(8.528,-6.165),new MaxVelocityConstraint(maxBallVelocity))
     };
     allConstraints = new TrajectoryConstraint[][]{ARedConstraints,ABlueConstraints,BRedConstraints,BBlueConstraints};
 
