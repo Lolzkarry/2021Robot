@@ -174,7 +174,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
   public Point[] getPoints(){
     return finder.findPowerCells().stream().map(rect -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
   }
-  static Translation2d convertFieldToTrajectory(double xFeet, double yFeet){
+  public static Translation2d convertFieldToTrajectory(double xFeet, double yFeet){
     return new Translation2d(Units.feetToMeters(xFeet), -Units.feetToMeters(15-yFeet)+15);
   }
   static RectangularRegionConstraint createSquareConstraint(Translation2d center, double apothem, TrajectoryConstraint constraint){
