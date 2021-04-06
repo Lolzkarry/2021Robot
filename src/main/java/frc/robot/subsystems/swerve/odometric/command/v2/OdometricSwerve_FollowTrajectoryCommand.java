@@ -27,6 +27,8 @@ public class OdometricSwerve_FollowTrajectoryCommand extends CommandBase {
   protected HolonomicDriveController controller;
   protected double[] currentState = new double[]{0,0};
   protected Translation2d currentTranslation;
+  protected boolean rotation = false;
+  protected Rotation2d desiredRotationOffset;
 
   // Called when the command is initially scheduled.
   @Override
@@ -47,6 +49,13 @@ public class OdometricSwerve_FollowTrajectoryCommand extends CommandBase {
     currentTranslation = state.poseMeters.getTranslation();
     currentState[0] = state.poseMeters.getX();
     currentState[1] = state.poseMeters.getY();
+    if (rotation){
+      Rotation2d rotationOutput = state.poseMeters.getRotation().plus(desiredRotationOffset);
+    }
+    else{
+      Rotation2d rotationOutput = new Rotation2d();
+    }
+
     var output = controller.calculate(swerve.getCurrentPose(), state, new Rotation2d());
     swerve.moveFieldCentric(output.vxMetersPerSecond, output.vyMetersPerSecond, output.omegaRadiansPerSecond);
   }
@@ -68,8 +77,10 @@ public class OdometricSwerve_FollowTrajectoryCommand extends CommandBase {
     this.swerve = swerve;
     this.trajectory = trajectory;
     this.controller = controller;
+    desiredRotationOffset = new Rotation2d(0);
     addRequirements(swerve);
   }
+
 
   public Trajectory getTrajectory() {
     return trajectory;
@@ -94,5 +105,11 @@ public class OdometricSwerve_FollowTrajectoryCommand extends CommandBase {
     super.initSendable(builder);
     builder.addDoubleArrayProperty("Current State", () -> currentState, null);
     builder.addDoubleProperty("Trajectory Time", () -> trajectory.getTotalTimeSeconds(), null);
+  }
+  public void setRotation(boolean bool){
+    rotation = bool;
+  }
+  public void setDesiredRotationOffset(double offset){
+    desiredRotationOffset = new Rotation2d(offset);
   }
 }
