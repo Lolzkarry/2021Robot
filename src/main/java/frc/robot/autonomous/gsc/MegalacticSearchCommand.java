@@ -153,7 +153,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
             maxAccelerationEntry.getDouble(0.5));
         config.addConstraint(new CentripetalAccelerationConstraint(maxCentripetalAccelerationEntry.getDouble(0.5)));
 
-        for (TrajectoryConstraint constraint : allConstraints[Arrays.asList(GalacticSearchConfiguration.values()).indexOf(configuration)]){
+        for (TrajectoryConstraint constraint : allConstraints[configuration.ordinal()]){
           config.addConstraint(constraint);
         }
 
