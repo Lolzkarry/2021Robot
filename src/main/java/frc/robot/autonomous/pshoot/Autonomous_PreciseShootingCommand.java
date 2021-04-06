@@ -35,12 +35,12 @@ public class Autonomous_PreciseShootingCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    var topSpeed = oi.getTopSpeed(); 
-    var bottomSpeed = oi.getBottomSpeed();
     var k = oi.getCoefficient();
+    var bottomSpeed = oi.getBottomSpeed() * k;
+    var topSpeed = oi.getTopSpeed() * k; 
     var threshold = oi.getThreshold();
 
-    shooter.run(topSpeed * k, bottomSpeed * k);
+    shooter.run(topSpeed, bottomSpeed);
     if(shooter.atSpeeds(threshold)){
       indexer.setSpeed(1);
     }else{

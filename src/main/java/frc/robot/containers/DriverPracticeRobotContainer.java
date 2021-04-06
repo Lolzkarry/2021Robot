@@ -197,7 +197,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
                 createAutonavBarrelRacingCommand());
         autonomousChooser.addOption("Megalactic Search", configureMegalacticSearchCommand());
 
-        autonomousChooser.addOption("Dotted Slalom", ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Dotted Slalom", "RobertSlalom2"));
+        autonomousChooser.addOption("Dotted Slalom", ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Dotted Slalom", "RobertSlalom3"));
 
         autonomousChooser.addOption(
             "Dotted Barrel Racing", 
@@ -456,6 +456,8 @@ public class DriverPracticeRobotContainer implements RobotContainer {
                 builder.addDoubleProperty("Turret Radian Offset", () -> getTurretRadianOffset(), value -> setTurretRadianOffset(value));
             }
         });
+
+        SmartDashboard.putData("Shooter", shooter);
 
 
 

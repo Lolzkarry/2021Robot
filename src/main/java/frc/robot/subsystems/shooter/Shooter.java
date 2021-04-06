@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.SmartMotorComponent;
 
@@ -29,7 +30,9 @@ public class Shooter extends SubsystemBase {
         return rotPerMin / 60 * 2 * Math.PI;
     }
     public boolean topAtSpeed(double threshold){
-        return Math.abs(desiredTopSpeed - radPerSecToRotPerMin(topMotor.getAngularVelocity())) < threshold;
+        var res = Math.abs(desiredTopSpeed - radPerSecToRotPerMin(topMotor.getAngularVelocity()));
+        
+        return  res < threshold;
     }
     public boolean bottomAtSpeed(double threshold){
         return Math.abs(desiredBottomSpeed - radPerSecToRotPerMin(bottomMotor.getAngularVelocity())) < threshold;
@@ -37,6 +40,12 @@ public class Shooter extends SubsystemBase {
     public void disableMotors(){
         topMotor.setOutput(0);
         bottomMotor.setOutput(0);
+    }
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("Top Motor", () -> desiredTopSpeed - radPerSecToRotPerMin(topMotor.getAngularVelocity()), null);
+        builder.addDoubleProperty("Bottom Motor", () -> desiredBottomSpeed - radPerSecToRotPerMin(bottomMotor.getAngularVelocity()), null);
     }
 }
 

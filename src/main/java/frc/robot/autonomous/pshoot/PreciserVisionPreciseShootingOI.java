@@ -18,6 +18,8 @@ public class PreciserVisionPreciseShootingOI extends VisionPreciseShootingOI imp
     double maxCoefficient = 1.2;
     double minCoefficient = 1;
 
+    double threshold = 3000;
+
     public PreciserVisionPreciseShootingOI(VisionDistanceCalculator visionDistanceCalculator, DoubleSupplier supplier) {
         super(visionDistanceCalculator);
         this.supplier = supplier;
@@ -31,6 +33,7 @@ public class PreciserVisionPreciseShootingOI extends VisionPreciseShootingOI imp
         builder.addDoubleProperty("Current Coefficient", this::getCoefficient, null);
         builder.addDoubleProperty("Min Coefficient", this::getMinCoefficient, this::setMinCoefficient);
         builder.addDoubleProperty("Max Coefficient", this::getMaxCoefficient, this::setMaxCoefficient);
+        builder.addDoubleProperty("Threshold", this::getThreshold, this::setThreshold);
 
     }
     public double getMaxCoefficient() {
@@ -44,6 +47,13 @@ public class PreciserVisionPreciseShootingOI extends VisionPreciseShootingOI imp
     }
     public void setMinCoefficient(double minCoefficient) {
         this.minCoefficient = minCoefficient;
+    }
+    @Override
+    public double getThreshold() {
+        return threshold;
+    }
+    public void setThreshold(double threshold){
+        this.threshold = threshold;
     }
     
 }
