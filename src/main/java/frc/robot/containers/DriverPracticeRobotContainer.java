@@ -203,7 +203,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             "Dotted Barrel Racing", 
             ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Dotted Barrel Racing", "BarrelRacing"));
         SmartDashboard.putData("Selected Auto", autonomousChooser);
-
+        SmartDashboard.putData("Bounce Path", new BouncePathCommand(swerve));
 
     
     }
