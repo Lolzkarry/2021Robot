@@ -188,10 +188,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             "Example Autonomous", 
             createExampleAutonomousCommand());
             configureSlalomRobert();
-        autonomousChooser.addOption(
-            "Bounce Path",
-            new BouncePathCommand(swerve)
-        );
+
         autonomousChooser.addOption(
             "Advanced Barrel Racing", 
        ExtendedTrajectoryUtilities.addTrajectoryWithShuffleboard(swerve, "Barrel Racing V2", "BarrelRacing")
@@ -209,7 +206,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
             ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Dotted Barrel Racing", "BarrelRacing"));
         SmartDashboard.putData("Selected Auto", autonomousChooser);
         SmartDashboard.putData("Bounce Path", new BouncePathCommand(swerve));
-
+        SmartDashboard.putData("lower arm", new InstantCommand(() -> {arm.setAngle(Math.PI/2);}));
     
     }
 

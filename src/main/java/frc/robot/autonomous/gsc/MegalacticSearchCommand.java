@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.constraint.MaxVelocityConstraint;
 import edu.wpi.first.wpilibj.trajectory.constraint.RectangularRegionConstraint;
 import edu.wpi.first.wpilibj.trajectory.constraint.TrajectoryConstraint;
@@ -73,8 +74,8 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
 
 
     //trajectory constraints
-    double maxBallVelocity = 1;
-    double constraintDiameter = 1;
+    double maxBallVelocity = 1.5;
+    double constraintDiameter = 1.5;
 
     ARedConstraints = new TrajectoryConstraint[] {
             createSquareConstraint(7.5, 7.5, constraintDiameter/2, maxBallVelocity),//C3
@@ -131,6 +132,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
       var points = getFinderResult().stream().map((Rect rect) -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
       var configuration = identifier.identifyConfiguration(points);
       var trajectory = configToTrajectory.get(configuration);
+      SmartDashboard.putString("Megalactic Configuration", configuration.toString());
       return trajectory;
     }
   }
@@ -175,7 +177,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
     return finder.findPowerCells().stream().map(rect -> new Point(rect.x + rect.width/2, rect.y + rect.height/2)).toArray(Point[]::new);
   }
   public static Translation2d convertFieldToTrajectory(double xFeet, double yFeet){
-    return new Translation2d(Units.feetToMeters(xFeet), -Units.feetToMeters(15-yFeet)+15);
+    return new Translation2d(Units.feetToMeters(xFeet), -Units.feetToMeters(15-yFeet)+5);
   }
   static RectangularRegionConstraint createSquareConstraint(Translation2d center, double apothem, TrajectoryConstraint constraint){
     var offset  = new Translation2d(apothem,apothem);
