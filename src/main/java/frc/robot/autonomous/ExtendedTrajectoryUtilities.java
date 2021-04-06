@@ -104,7 +104,7 @@ public class ExtendedTrajectoryUtilities {
         tab.add("Run Follow Command", realFollow);
         return realFollow;
     }
-    private static void createControllerRegenerationLayout(OdometricSwerve swerve, ShuffleboardTab tab, OdometricSwerve_FollowTrajectoryCommand followCommand) {
+    public static void createControllerRegenerationLayout(OdometricSwerve swerve, ShuffleboardTab tab, OdometricSwerve_FollowTrajectoryCommand followCommand) {
         var controllerLayout = tab.getLayout("Controller Regeneration", BuiltInLayouts.kList);
         var kPxEntry = controllerLayout.add("kPx", 1).getEntry();
         var kPyEntry = controllerLayout.add("kPy", 1).getEntry();
@@ -120,7 +120,7 @@ public class ExtendedTrajectoryUtilities {
                 maxRotAccelerationEntry.getDouble(1)));
         }, swerve));
     }
-    private static void createTrajectoryRegenerationLayout(OdometricSwerve swerve, ShuffleboardTab tab, Trajectory trajectory, OdometricSwerve_FollowTrajectoryCommand followCommand) {
+    public static void createTrajectoryRegenerationLayout(OdometricSwerve swerve, ShuffleboardTab tab, Trajectory trajectory, OdometricSwerve_FollowTrajectoryCommand followCommand) {
         var trajectoryLayout = tab.getLayout("Trajectory Regeneration", BuiltInLayouts.kList);
         var maxVelocityEntry = trajectoryLayout.add("Max Velocity Meters", 2.4).getEntry();
         var maxAccelerationEntry = trajectoryLayout.add("Max Acceleration Meters", 0.5).getEntry();

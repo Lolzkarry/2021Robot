@@ -21,6 +21,10 @@ import edu.wpi.first.wpilibj.shuffleboard.LayoutType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.MaxVelocityConstraint;
+import edu.wpi.first.wpilibj.trajectory.constraint.RectangularRegionConstraint;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -53,6 +57,7 @@ import frc.robot.subsystems.swerve.kinematic.command.KinematicSwerve_RampedDrive
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerveDashboardUtility;
 import frc.robot.subsystems.swerve.odometric.command.OdometricSwerve_AdvancedFollowTrajectoryCommand;
+import frc.robot.subsystems.swerve.odometric.command.v2.OdometricSwerve_FollowDottedTrajectoryCommand;
 import frc.robot.subsystems.swerve.odometric.factory.EntropySwerveFactory;
 import frc.robot.subsystems.turret.Turret;
 import frc.robot.subsystems.turret.factory.HardwareTurretFactory;
@@ -197,7 +202,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
                 createAutonavBarrelRacingCommand());
         autonomousChooser.addOption("Megalactic Search", configureMegalacticSearchCommand());
 
-        autonomousChooser.addOption("Dotted Slalom", ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Dotted Slalom", "RobertSlalom3"));
+        configureDottedSlalom();
 
         autonomousChooser.addOption(
             "Dotted Barrel Racing", 
@@ -215,6 +220,45 @@ public class DriverPracticeRobotContainer implements RobotContainer {
         ac.setSamplingRate(4);
         
         autonomousChooser.addOption("Slalom Path Robert", new InstantCommand(() -> swerve.resetPose(traj.getInitialPose().getTranslation()), swerve).andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(swerve, ac)));
+    }
+    private void configureDottedSlalom(){
+        var tab = Shuffleboard.getTab("Dotted Slalom");
+        var traj = tryGetDeployedTrajectory("RobertSlalom3");
+        var followCommand = new OdometricSwerve_FollowDottedTrajectoryCommand(swerve, traj, OdometricSwerve_FollowDottedTrajectoryCommand.createBasicController(1, 1, 1, 4, 1));
+
+        var controllerLayout = tab.getLayout("Controller Regeneration", BuiltInLayouts.kList);
+        var kPxEntry = controllerLayout.add("kPx", 1).getEntry();
+        var kPyEntry = controllerLayout.add("kPy", 1).getEntry();
+        var kPwEntry = controllerLayout.add("kPw", 1).getEntry();
+        var maxRotSpeedEntry = controllerLayout.add("Max Rotational Speed", 4).getEntry();
+        var maxRotAccelerationEntry = controllerLayout.add("Max Rotational Acceleration", 1).getEntry();
+        controllerLayout.add("Regenerate Controller", new InstantCommand(() -> {
+            followCommand.setController(OdometricSwerve_FollowDottedTrajectoryCommand.createBasicController(
+                kPxEntry.getDouble(1), 
+                kPyEntry.getDouble(1), 
+                kPwEntry.getDouble(1), 
+                maxRotSpeedEntry.getDouble(4), 
+                maxRotAccelerationEntry.getDouble(1)));
+        }, swerve));
+
+        var trajectoryLayout = tab.getLayout("Trajectory Regeneration", BuiltInLayouts.kList);
+        var maxVelocityEntry = trajectoryLayout.add("Max Velocity Meters", 2.4).getEntry();
+        var maxAccelerationEntry = trajectoryLayout.add("Max Acceleration Meters", 0.5).getEntry();
+        var maxCentripetalAccelerationEntry = trajectoryLayout.add("Max Centripetal Acceleration Meters", 0.5).getEntry();
+        var maxVelocityAtRegionEntry = trajectoryLayout.add("Max Velocity of Region Meters", 2).getEntry();
+        trajectoryLayout.add("Regenerate Trajectory", new InstantCommand(() -> {
+
+            var config =  new TrajectoryConfig(
+                maxVelocityEntry.getDouble(2.4), 
+                maxAccelerationEntry.getDouble(0.5));
+            config.addConstraint(new CentripetalAccelerationConstraint(maxCentripetalAccelerationEntry.getDouble(0.5)));
+            config.addConstraint(new RectangularRegionConstraint(MegalacticSearchCommand.convertFieldToTrajectory(20, 0), MegalacticSearchCommand.convertFieldToTrajectory(30, 10), new MaxVelocityConstraint(maxVelocityAtRegionEntry.getDouble(1))));
+            followCommand.setTrajectory(
+                ExtendedTrajectoryUtilities.regenerateTrajectory(
+                    traj, 
+                   config));
+        }, swerve));
+
     }
     private void configureSlalomMartin(){
         var traj = tryGetDeployedTrajectory("SlalomTest");
