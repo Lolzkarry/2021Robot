@@ -157,46 +157,6 @@ public class DriverPracticeRobotContainer implements RobotContainer {
     private void configureAutonomous() {
         autonomousChooser = new SendableChooser<>();
 
-        autonomousChooser.addOption(
-            "Shoot and Cross The Line", 
-            createShootAndCrossTheLineCommand());
-
-        autonomousChooser.addOption(
-            "Away From Center, Move Forward and Shoot",
-            createAwayFromCenterMoveForwardAndShootCommand());
-
-        autonomousChooser.addOption(
-            "Away From Center, Move Backward and Shoot",
-            createAwayFromCenterMoveBackwardAndShootCommand());
-
-        autonomousChooser.addOption(
-            "Citrus Compatible Primary", 
-            createCitrusCompatibleCommand());
-        autonomousChooser.addOption(
-            "Citrus Compatible Secondary",
-            createCitrusCompatibleSecondary());
-        autonomousChooser.addOption(
-            "Trench Citrus Compatible Primary", 
-            createTrenchCitrusCompatiblePartACommand());
-
-        autonomousChooser.addOption(
-            "Trench Citrus Compatible Second", 
-            createTrenchCitrusCompatibleBCommand());
-        
-        /* Example Path Added to AutonomousChooser */
-        autonomousChooser.addOption(
-            "Example Autonomous", 
-            createExampleAutonomousCommand());
-            configureSlalomRobert();
-
-        autonomousChooser.addOption(
-            "Advanced Barrel Racing", 
-       ExtendedTrajectoryUtilities.addTrajectoryWithShuffleboard(swerve, "Barrel Racing V2", "BarrelRacing")
-            
-            );
-            autonomousChooser.addOption(
-                "Barrel Racing",
-                createAutonavBarrelRacingCommand());
         autonomousChooser.addOption("Megalactic Search", configureMegalacticSearchCommand());
 
         configureDottedSlalom();
