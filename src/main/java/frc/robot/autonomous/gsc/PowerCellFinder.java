@@ -21,7 +21,7 @@ public class PowerCellFinder {
 
     Mat source = new Mat();
 
-    LowLightPipeline pipeline = new LowLightPipeline();
+    RandomGripPipeline pipeline = new RandomGripPipeline();
     public PowerCellFinder(){
         camera.setResolution(width, height);
     }

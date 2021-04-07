@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstr
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autonomous.Autonomous_Megindex;
 import frc.robot.autonomous.ExtendedTrajectoryUtilities;
 import frc.robot.subsystems.arm.Arm;
@@ -118,6 +119,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> {finderResult = finder.findPowerCells(); }), //finds power cells
       new InstantCommand(() -> {followCommand.setTrajectory(getTrajectory(finderResult)); }), //sets the trajectory
+      //new WaitCommand(0.5),
         run); //runs the code
   }
 

@@ -58,6 +58,7 @@ public class StarterSimulatedRobotContainer implements RobotContainer{
     }
     
     private void configureAutonomous(){
+        if(false){
         var trajectory = ExtendedTrajectoryUtilities.tryGetDeployedTrajectory("ExampleTrajectory");
         var pathController = GenericAutonUtilities.createDefaultControllerBuilder()
         .withTrajectory(trajectory)
@@ -67,12 +68,17 @@ public class StarterSimulatedRobotContainer implements RobotContainer{
         .andThen(new OdometricSwerve_AdvancedFollowTrajectoryCommand(
             swerve,
             pathController));
+        
 
         SmartDashboard.putData("Example Autonomous Command", exampleAutonomousCommand);
-        SmartDashboard.putData("Barrel Racing", createAutonavBarrelRacingCommand());
-        ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Barrel Racing Dotted V2", "BarrelRacing");
+
         var mgsc = new MegalacticSearchCommand(swerve, new Arm(new VirtualSmartMotorComponent()), new Intake(new VirtualSmartMotorComponent()), new Indexer(new VirtualSmartMotorComponent(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor(), new VirtualBallSensor()));
         mgsc.initializeShuffleboardTab("Megalactic Search Command");
+
+    }
+        SmartDashboard.putData("Barrel Racing", createAutonavBarrelRacingCommand());
+        ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Barrel Racing Dotted V2", "BarrelRacing");
+        ExtendedTrajectoryUtilities.addDottedTrajectoryWithShuffleboard(swerve, "Gsearch", "GSearchARed");
     }
 
     private void configureSmartDashboardControls(){

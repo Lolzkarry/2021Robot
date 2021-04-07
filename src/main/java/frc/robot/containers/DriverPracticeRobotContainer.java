@@ -107,7 +107,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
 
     private double xSensitivity = 01, ySensitivity = 01, zSensitivity = 1.5, xDeadzone = 0.2, yDeadzone = 0.2,
             zDeadzone = 0.3;
-    private boolean useContinuousDriving = false, useDriverTab = true;
+    private boolean useContinuousDriving = false, useDriverTab = false;
 
     private double turretRadianOffset = 0.0;
     private Translation2d 
@@ -560,6 +560,7 @@ public class DriverPracticeRobotContainer implements RobotContainer {
         }
 
         alignToLoadButton.whenHeld(trackLoadingCommand);
+        driverTab.add("Swerve Pose", new OdometricSwerveDashboardUtility(swerve));
     }
     private CommandBase createHardDeadzoneSwerveCommand(){
         return new RunCommand(() -> {
