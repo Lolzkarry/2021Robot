@@ -5,6 +5,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.vision.LowLightPipeline;
 import frc.robot.subsystems.vision.RandomGripPipeline;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -20,7 +21,7 @@ public class PowerCellFinder {
 
     Mat source = new Mat();
 
-    RandomGripPipeline pipeline = new RandomGripPipeline();
+    LowLightPipeline pipeline = new LowLightPipeline();
     public PowerCellFinder(){
         camera.setResolution(width, height);
     }
@@ -32,12 +33,6 @@ public class PowerCellFinder {
         } else {
             System.err.println(cvSink.getError());
         }
-        if (!pipeline.findContoursOutput().isEmpty()) {
-            outputStream1.putFrame(pipeline.hsvThresholdOutput());
-
-            return pipeline.getRects();
-        } else {
-            return null;
-        }
+        return pipeline.getRects();
     }
 }
