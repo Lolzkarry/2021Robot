@@ -74,8 +74,8 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
 
 
     //trajectory constraints
-    double maxBallVelocity = 1.5;
-    double constraintDiameter = 1.5;
+    double maxBallVelocity = 2;
+    double constraintDiameter = 1.25;
 
     ARedConstraints = new TrajectoryConstraint[] {
             createSquareConstraint(7.5, 7.5, constraintDiameter/2, maxBallVelocity),//C3
@@ -104,7 +104,7 @@ public class MegalacticSearchCommand extends SequentialCommandGroup {
     followCommand.getController().setTolerance(new Pose2d(0.1, 0.1, new Rotation2d(0.5)));
 
 
-      Command intakeCommand = new Autonomous_Megindex(indexer, intake, 1, 0.9);
+      Command intakeCommand = new InstantCommand(() -> {intake.setSpeed(0.9); indexer.setSpeed(1);});//new Autonomous_Megindex(indexer, intake, 1, 0.9);
       Command setArm = new InstantCommand(() ->  arm.setAngle(Math.PI));
       Command resetArm = new InstantCommand(() -> arm.setAngle(0));
       var resetPosition = new InstantCommand(() -> swerve.resetPose(followCommand.getTrajectory().getInitialPose().getTranslation()), swerve);
