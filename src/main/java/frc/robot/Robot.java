@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
     if(isSimulation()){
       m_robotContainer = new StarterSimulatedRobotContainer();
     }else{
-    m_robotContainer = new DriverPracticeRobotContainer();
+    m_robotContainer = new CleanBoiRobotContainer();
     }
   }
 
