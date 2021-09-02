@@ -33,10 +33,10 @@ public class EntropySwerveFactory {
     private static final int BL_ANGLE_PORT = 2; //2
     private static final int FR_ANGLE_PORT = 6; //6
     private static final int FL_ANGLE_PORT = 3; //3
-    public double WHEEL_DIAMETER_METERS = Units.inchesToMeters(6.0);
-    public double DRIVE_LEFTWARD = Units.inchesToMeters(24.5 - 1.75);
-    public double DRIVE_FORWARD = Units.inchesToMeters(24.5 - 1.75);
-    public OdometricSwerve makeSwerve(){
+    public static double WHEEL_DIAMETER_METERS = Units.inchesToMeters(6.0);
+    public static double DRIVE_LEFTWARD = Units.inchesToMeters(24.5 - 1.75);
+    public static double DRIVE_FORWARD = Units.inchesToMeters(24.5 - 1.75);
+    public static OdometricSwerve makeSwerve(){
 
         var fl = makeWheelModule(FL_ANGLE_PORT, FL_DRIVE_PORT, new Translation2d(DRIVE_FORWARD / 2, DRIVE_LEFTWARD/2), true, true,true);
         var fr = makeWheelModule(FR_ANGLE_PORT, FR_DRIVE_PORT, new Translation2d(DRIVE_FORWARD / 2, -DRIVE_LEFTWARD / 2), true, true,false);
@@ -52,7 +52,7 @@ public class EntropySwerveFactory {
                 );
             
     }
-    public OdometricWheelModule makeWheelModule(int angleId, int driveId,Translation2d translationFromSwerveCenter, boolean invertSensorPhase, boolean invertAngle, boolean invertSpeed){
+    public static OdometricWheelModule makeWheelModule(int angleId, int driveId,Translation2d translationFromSwerveCenter, boolean invertSensorPhase, boolean invertAngle, boolean invertSpeed){
         var srx = new TalonSRXComponent(angleId);
         srx.setSensorPhase(invertSensorPhase);
         srx.setInverted(invertAngle);
