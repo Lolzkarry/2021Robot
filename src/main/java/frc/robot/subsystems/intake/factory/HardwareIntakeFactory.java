@@ -12,6 +12,6 @@ public class HardwareIntakeFactory implements IntakeFactory {
     ;
 
     public Intake makeIntake(){
-        return  new Intake(new SparkMaxComponent(IntakeMap.INTAKE_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless));
+        return new Intake(new SparkMaxComponent(IntakeMap.INTAKE_MOTOR_PORT, CANSparkMaxLowLevel.MotorType.kBrushless));
     }
 }

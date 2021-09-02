@@ -9,13 +9,12 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.ControlConstants;
-import frc.robot.subsystems.shooter.ShooterOI;
+import frc.robot.subsystems.intake.IntakeOI;
 import frc.robot.subsystems.swerve.SwerveOI;
 import frc.robot.subsystems.swerve.odometric.OdometricSwerve;
-import frc.robot.subsystems.swerve.odometric.OdometricWheelModule;
 import frc.robot.subsystems.swerve.odometric.factory.EntropySwerveFactory;
-
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.factory.HardwareIntakeFactory;
 import static frc.robot.ControlConstants.xSensitivity;
 import static frc.robot.ControlConstants.ySensitivity;
 import static frc.robot.ControlConstants.zSensitivity;
@@ -24,9 +23,10 @@ import static frc.robot.ControlConstants.yDeadzone;
 import static frc.robot.ControlConstants.zDeadzone;
 import static frc.robot.utility.ExtendedMath.withHardDeadzone;
 
-public class GRCRobotContainer implements RobotContainer, SwerveOI {
+public class GRCRobotContainer implements RobotContainer, SwerveOI, IntakeOI {
     public OdometricSwerve swerve = EntropySwerveFactory.makeSwerve();
     private ShuffleboardTab driverTab;
+    private double intakeSpeed;
     private Joystick
             driveStick = new Joystick(0),
             controlStick = new Joystick(1);
@@ -34,6 +34,10 @@ public class GRCRobotContainer implements RobotContainer, SwerveOI {
 
     private JoystickButton
             resetGyroButton = new JoystickButton(driveStick, 5);
+
+    private Intake intake = new HardwareIntakeFactory().makeIntake();
+
+
 
     public GRCRobotContainer() {
         driverTab = Shuffleboard.getTab("Driver Controls");
@@ -68,4 +72,5 @@ public class GRCRobotContainer implements RobotContainer, SwerveOI {
     public double getZ(){
         return driveStick.getZ();
     }
+    public double getIntakeSpeed() {return intakeSpeed;}
 }
