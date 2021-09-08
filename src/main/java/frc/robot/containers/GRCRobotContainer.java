@@ -34,6 +34,9 @@ public class GRCRobotContainer implements RobotContainer, SwerveOI, IntakeOI {
 
     private JoystickButton
             resetGyroButton = new JoystickButton(driveStick, 5);
+    private JoystickButton
+            intakeButton = new JoystickButton(controlStick, 1);
+
 
     private Intake intake = new HardwareIntakeFactory().makeIntake();
 
